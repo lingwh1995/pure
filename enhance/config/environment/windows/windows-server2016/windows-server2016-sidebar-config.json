@@ -1,0 +1,55 @@
+  {
+      // 必要的，分组的标题文字
+      text: "在WindowsServer2016上搭建开发环境",
+      // 可选的, 分组标题对应的图标
+      icon: "a-archivecatalogue-fill",
+      // 可选的, 设置分组是否可以折叠，默认值是 false
+      collapsable: true,
+      // 必要的，分组的子项目
+      children: [
+          {
+              text: "按照章节阅读",
+              icon: "list",
+              collapsable: true,
+              children:[
+                  {
+                      text: "博客内容介绍",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-0.博客内容介绍.md",
+                   },
+                  {
+                      text: "1.搭建基础开发环境",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-1.搭建基础开发环境.md",
+                  },
+                  {
+                      text: "2.搭建SpringCloud技术栈所需组件",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-2.搭建SpringCloud技术栈所需组件.md",
+                  },
+              ]
+          },
+          {
+              text: "章节内容合集",
+              icon: "repo",
+              collapsable: true,
+              children:[
+                  {
+                      text: "博客内容介绍",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/windows-server2016.md#intro",
+                  },
+                  {
+                      text: "1.搭建基础开发环境",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/windows-server2016.md#1.",
+                  },
+                  {
+                      text: "2.搭建SpringCloud技术栈所需组件",
+                      icon: "article",
+                      link: "/blogs/environment/windows/windows-server2016/windows-server2016.md#2.",
+                  },
+              ]
+          },
+      ]
+  },

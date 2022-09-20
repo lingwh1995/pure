@@ -1,0 +1,958 @@
+<!DOCTYPE html>
+<html lang="zh-CN" data-theme="light">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="generator" content="VuePress 2.0.0-beta.49" />
+    <meta name="theme" content="VuePress Theme Hope" />
+    <meta name="keywords" content="搭建基础开发环境,搭建SpringCloud技术栈所需组件,"><meta property="og:url" content="https://vuepress-theme-hope-v2-demo.mrhope.site/pure/blogs/environment/windows/windows-server2016/windows-server2016.html"><meta property="og:site_name" content="此生挚爱万宝路"><meta property="og:title" content="在WindowsServer2016上搭建开发环境-章节内容合集"><meta property="og:description" content="本章节涉及主要内容有：具体每个小节中包含的内容可使通过下面的章节内容大纲进行查看,所有代码均经过严格测试，可直接复制运行即可。"><meta property="og:type" content="article"><meta property="og:updated_time" content="2022-09-09T10:18:47.000Z"><meta property="og:locale" content="zh-CN"><meta property="article:tag" content="windows"><meta property="article:tag" content="环境搭建"><meta property="article:tag" content="jdk"><meta property="article:tag" content="springcloud组件"><meta property="article:tag" content="zipkin"><meta property="article:tag" content="apollo"><meta property="article:tag" content="seata"><meta property="article:published_time" content="2021-03-15T00:00:00.000Z"><meta property="article:modified_time" content="2022-09-09T10:18:47.000Z"><link rel="icon" href="/images/headshot.jpg"><link rel="stylesheet" href="//at.alicdn.com/t/c/font_3564358_fdvgdum1r.css"><link rel="manifest" href="/pure/manifest.webmanifest" crossorigin="use-credentials"><meta name="theme-color" content="#46bd87"><link rel="apple-touch-icon" href="/images/pwa/128.png"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-status-bar-style" content="black"><meta name="msapplication-TileImage" content="/images/pwa/128.png"><meta name="msapplication-TileColor" content="#46bd87"><meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"><title>在WindowsServer2016上搭建开发环境-章节内容合集 | 此生挚爱万宝路</title><meta name="description" content="本章节涉及主要内容有：具体每个小节中包含的内容可使通过下面的章节内容大纲进行查看,所有代码均经过严格测试，可直接复制运行即可。">
+    <style>
+      :root {
+        --bg-color: #fff;
+      }
+
+      html[data-theme="dark"] {
+        --bg-color: #1d2025;
+      }
+
+      html,
+      body {
+        background-color: var(--bg-color);
+      }
+    </style>
+    <script>
+      const userMode = localStorage.getItem("vuepress-theme-hope-scheme");
+      const systemDarkMode =
+        window.matchMedia &&
+        window.matchMedia("(prefers-color-scheme: dark)").matches;
+
+      if (userMode === "dark" || (userMode !== "light" && systemDarkMode)) {
+        document.querySelector("html").setAttribute("data-theme", "dark");
+      }
+    </script>
+    <link rel="stylesheet" href="/pure/assets/style.ba738b59.css">
+    <link rel="modulepreload" href="/pure/assets/app.d4c08878.js"><link rel="modulepreload" href="/pure/assets/windows-server2016.html.08146407.js"><link rel="modulepreload" href="/pure/assets/apollo8070.5177d292.js"><link rel="modulepreload" href="/pure/assets/windows-server2016.html.8802fcdc.js">
+  </head>
+  <body>
+    <div id="app"><!--[--><!--[--><!--[--><span tabindex="-1"></span><a href="#main-content" class="skip-link sr-only">Skip to content</a><!--]--><div class="theme-container has-toc"><!--[--><!--[--><header class="navbar"><div class="navbar-left"><button class="toggle-sidebar-button" title="Toggle Sidebar"><span class="icon"></span></button><!----><a href="/pure/" class="brand"><img class="logo" src="/pure/images/headshot.jpg" alt="此生挚爱万宝路"><!----><span class="site-name hide-in-pad">此生挚爱万宝路</span></a><!----></div><div class="navbar-center"><!----><nav class="nav-links"><div class="nav-item hide-in-mobile"><a href="/pure/" class="nav-link" aria-label="个人主页"><span class="icon iconfont icon-hacker"></span>个人主页<!----></a></div><div class="nav-item hide-in-mobile"><a href="/pure/blog.html" class="nav-link" aria-label="博客主页"><span class="icon iconfont icon-blog"></span>博客主页<!----></a></div><div class="nav-item hide-in-mobile"><a href="/pure/cinema.html" class="nav-link" aria-label="放映厅"><span class="icon iconfont icon-creative"></span>放映厅<!----></a></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="后端"><span class="title"><span class="icon iconfont icon-java"></span>后端</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>springcloud</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/backend/springcloud/springcloud-eureka/shardings/springcloud-eureka-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="springcloud-eureka"><span class="icon iconfont icon-cloud"></span>springcloud-eureka<!----></a></li><li class="dropdown-subitem"><a href="/pure/blogs/backend/springcloud/springcloud-eureka/shardings/springcloud-eureka-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="springcloud-zookeeper"><span class="icon iconfont icon-cloud"></span>springcloud-zookeeper<!----></a></li><li class="dropdown-subitem"><a href="/pure/blogs/backend/springcloud/springcloud-eureka/shardings/springcloud-eureka-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="springcloud-consul"><span class="icon iconfont icon-cloud"></span>springcloud-consul<!----></a></li><li class="dropdown-subitem"><a href="/pure/blogs/backend/springcloud/springcloud-eureka/shardings/springcloud-eureka-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="springcloud-alibaba"><span class="icon iconfont icon-cloud"></span>springcloud-alibaba<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="通用技能"><span class="title"><span class="icon iconfont icon-stack"></span>通用技能</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>设计模式</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/general/designpattern/designpattern-java/shardings/designpattern-java-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="Java语言构造"><span class="icon iconfont icon-java"></span>Java语言构造<!----></a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>数据结构</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/general/datastructure/datastructure-java/shardings/datastructure-java-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="Java语言构造"><span class="icon iconfont icon-java"></span>Java语言构造<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="环境搭建"><span class="title"><span class="icon iconfont icon-shell"></span>环境搭建</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>centos</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="centos7"><span class="icon iconfont icon-centos"></span>centos7<!----></a></li></ul></li><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>windows</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-0.%E5%8D%9A%E5%AE%A2%E5%86%85%E5%AE%B9%E4%BB%8B%E7%BB%8D.html" class="nav-link" aria-label="windows server2016"><span class="icon iconfont icon-windows"></span>windows server2016<!----></a></li></ul></li></ul></button></div></div><div class="nav-item hide-in-mobile"><div class="dropdown-wrapper"><button class="dropdown-title" type="button" aria-label="基础支持"><span class="title"><span class="icon iconfont icon-tool"></span>基础支持</span><span class="arrow"></span><ul class="nav-dropdown"><li class="dropdown-item"><h4 class="dropdown-subtitle"><span>网站收藏</span></h4><ul class="dropdown-subitem-wrapper"><li class="dropdown-subitem"><a href="/pure/blogs/basicsupprot/tools.html" class="nav-link" aria-label="工具类网站"><span class="icon iconfont icon-repair"></span>工具类网站<!----></a></li><li class="dropdown-subitem"><a href="/pure/blogs/basicsupprot/knowledge.html" class="nav-link" aria-label="知识类网站"><span class="icon iconfont icon-study"></span>知识类网站<!----></a></li><li class="dropdown-subitem"><a href="/pure/blogs/basicsupprot/devresource.html" class="nav-link" aria-label="开发资源"><span class="icon iconfont icon-dev"></span>开发资源<!----></a></li></ul></li><li class="dropdown-item"><a href="/pure/blogs/environment/windows/windows.md" class="nav-link" aria-label="工具软件"><span class="icon iconfont icon-windows"></span>工具软件<!----></a></li></ul></button></div></div><div class="nav-item hide-in-mobile"><a href="https://github.com/lingwh1995" rel="noopener noreferrer" target="_blank" aria-label="GITHUB" class="nav-link"><span class="icon iconfont icon-github"></span>GITHUB<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div><div class="nav-item hide-in-mobile"><a href="https://gitee.com/lingwh1995" rel="noopener noreferrer" target="_blank" aria-label="GITEE" class="nav-link"><span class="icon iconfont icon-gitee"></span>GITEE<span><svg class="external-link-icon" xmlns="http://www.w3.org/2000/svg" aria-hidden="true" focusable="false" x="0px" y="0px" viewbox="0 0 100 100" width="15" height="15"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path><polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg><span class="external-link-icon-sr-only">open in new window</span></span><!----></a></div></nav><!----></div><div class="navbar-right"><!----><!----><div class="nav-item"><a class="pure-button" href="javascript:void(0)" target="_self" rel="noopener noreferrer" aria-label="Github"><svg t="1660309811545" class="icon" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" p-id="1872" width="1.1rem" height="1.1rem" style="vertical-align:middle;border-radius:0.2rem;"><path d="M892.708571 0H131.291429A131.267048 131.267048 0 0 0 0 131.267048v761.417142A131.31581 131.31581 0 0 0 131.291429 1024h761.417142A131.31581 131.31581 0 0 0 1024 892.68419V131.267048A131.267048 131.267048 0 0 0 892.708571 0z" fill="#3eaf7c" p-id="1873"></path></svg></a><div class="popup"><div class="item"><div class="title">当前模式</div><div class="content">常规模式</div></div><div class="item"><div class="title">常规模式➡️</div><div class="content">😄页面色彩丰富</div></div><div class="item"><div class="title">纯净模式➡️</div><div class="content">🍀页面色彩简单</div></div></div></div><div class="nav-item hide-in-mobile"><button id="appearance-switch"><svg xmlns="http://www.w3.org/2000/svg" class="icon auto-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="auto icon" style="display:block;"><path d="M512 992C246.92 992 32 777.08 32 512S246.92 32 512 32s480 214.92 480 480-214.92 480-480 480zm0-840c-198.78 0-360 161.22-360 360 0 198.84 161.22 360 360 360s360-161.16 360-360c0-198.78-161.22-360-360-360zm0 660V212c165.72 0 300 134.34 300 300 0 165.72-134.28 300-300 300z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon dark-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="dark icon" style="display:none;"><path d="M524.8 938.667h-4.267a439.893 439.893 0 0 1-313.173-134.4 446.293 446.293 0 0 1-11.093-597.334A432.213 432.213 0 0 1 366.933 90.027a42.667 42.667 0 0 1 45.227 9.386 42.667 42.667 0 0 1 10.24 42.667 358.4 358.4 0 0 0 82.773 375.893 361.387 361.387 0 0 0 376.747 82.774 42.667 42.667 0 0 1 54.187 55.04 433.493 433.493 0 0 1-99.84 154.88 438.613 438.613 0 0 1-311.467 128z"></path></svg><svg xmlns="http://www.w3.org/2000/svg" class="icon light-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="light icon" style="display:none;"><path d="M952 552h-80a40 40 0 0 1 0-80h80a40 40 0 0 1 0 80zM801.88 280.08a41 41 0 0 1-57.96-57.96l57.96-58a41.04 41.04 0 0 1 58 58l-58 57.96zM512 752a240 240 0 1 1 0-480 240 240 0 0 1 0 480zm0-560a40 40 0 0 1-40-40V72a40 40 0 0 1 80 0v80a40 40 0 0 1-40 40zm-289.88 88.08-58-57.96a41.04 41.04 0 0 1 58-58l57.96 58a41 41 0 0 1-57.96 57.96zM192 512a40 40 0 0 1-40 40H72a40 40 0 0 1 0-80h80a40 40 0 0 1 40 40zm30.12 231.92a41 41 0 0 1 57.96 57.96l-57.96 58a41.04 41.04 0 0 1-58-58l58-57.96zM512 832a40 40 0 0 1 40 40v80a40 40 0 0 1-80 0v-80a40 40 0 0 1 40-40zm289.88-88.08 58 57.96a41.04 41.04 0 0 1-58 58l-57.96-58a41 41 0 0 1 57.96-57.96z"></path></svg></button></div><!----><!----><button class="toggle-navbar-button" aria-label="Toggle Navbar" aria-expanded="false" aria-controls="nav-screen"><span class="button-container"><span class="button-top"></span><span class="button-middle"></span><span class="button-bottom"></span></span></button></div></header><!----><!--]--><!----><div class="toggle-sidebar-wrapper"><span class="arrow left"></span></div><aside class="sidebar"><!--[--><!----><!--]--><ul class="sidebar-links"><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-a-archivecatalogue-fill"></span><span class="title">在Centos7上搭建开发环境</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-a-archivecatalogue-fill"></span><span class="title">在WindowsServer2016上搭建开发环境</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-a-archivecatalogue-fill"></span><span class="title">基于Eureka搭建Springcloud微服务</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-a-archivecatalogue-fill"></span><span class="title">使用Java语言编写设计模式</span><span class="arrow right"></span></button><!----></section><!--]--></li><li><!--[--><section class="sidebar-group"><button class="sidebar-heading clickable"><span class="icon iconfont icon-a-archivecatalogue-fill"></span><span class="title">使用Java语言构造数据结构</span><span class="arrow right"></span></button><!----></section><!--]--></li></ul><!--[--><!----><!--]--></aside><!--[--><main class="page" id="main-content"><!--[--><!----><nav class="breadcrumb disable"></nav><div class="page-title"><h1><span class="icon iconfont icon-windows"></span>在WindowsServer2016上搭建开发环境-章节内容合集</h1><div class="page-info"><span class="author-info" aria-label="作者" localizeddate="2021年3月14日" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon author-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="author icon"><path d="M649.6 633.6c86.4-48 147.2-144 147.2-249.6 0-160-128-288-288-288s-288 128-288 288c0 108.8 57.6 201.6 147.2 249.6-121.6 48-214.4 153.6-240 288-3.2 9.6 0 19.2 6.4 25.6 3.2 9.6 12.8 12.8 22.4 12.8h704c9.6 0 19.2-3.2 25.6-12.8 6.4-6.4 9.6-16 6.4-25.6-25.6-134.4-121.6-240-243.2-288z"></path></svg><span><a class="author-item" href="https://github.com/lingwh1995" target="_blank" rel="noopener noreferrer">lingwh</a></span><span property="author" content="lingwh"></span></span><span class="origin" localizeddate="2021年3月14日" pageview="true" pure="true">原创</span><span class="date-info" aria-label="写作日期" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon calendar-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="calendar icon"><path d="M716.4 110.137c0-18.753-14.72-33.473-33.472-33.473-18.753 0-33.473 14.72-33.473 33.473v33.473h66.993v-33.473zm-334.87 0c0-18.753-14.72-33.473-33.473-33.473s-33.52 14.72-33.52 33.473v33.473h66.993v-33.473zm468.81 33.52H716.4v100.465c0 18.753-14.72 33.473-33.472 33.473a33.145 33.145 0 01-33.473-33.473V143.657H381.53v100.465c0 18.753-14.72 33.473-33.473 33.473a33.145 33.145 0 01-33.473-33.473V143.657H180.6A134.314 134.314 0 0046.66 277.595v535.756A134.314 134.314 0 00180.6 947.289h669.74a134.36 134.36 0 00133.94-133.938V277.595a134.314 134.314 0 00-133.94-133.938zm33.473 267.877H147.126a33.145 33.145 0 01-33.473-33.473c0-18.752 14.72-33.473 33.473-33.473h736.687c18.752 0 33.472 14.72 33.472 33.473a33.145 33.145 0 01-33.472 33.473z"></path></svg><span>2021年3月14日</span><meta property="datePublished" content="2021-03-15T00:00:00.000Z"></span><span class="reading-time-info" aria-label="阅读时间" localizeddate="2021年3月14日" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon timer-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="timer icon"><path d="M799.387 122.15c4.402-2.978 7.38-7.897 7.38-13.463v-1.165c0-8.933-7.38-16.312-16.312-16.312H256.33c-8.933 0-16.311 7.38-16.311 16.312v1.165c0 5.825 2.977 10.874 7.637 13.592 4.143 194.44 97.22 354.963 220.201 392.763-122.204 37.542-214.893 196.511-220.2 389.397-4.661 5.049-7.638 11.651-7.638 19.03v5.825h566.49v-5.825c0-7.379-2.849-13.981-7.509-18.9-5.049-193.016-97.867-351.985-220.2-389.527 123.24-37.67 216.446-198.453 220.588-392.892zM531.16 450.445v352.632c117.674 1.553 211.787 40.778 211.787 88.676H304.097c0-48.286 95.149-87.382 213.728-88.676V450.445c-93.077-3.107-167.901-81.297-167.901-177.093 0-8.803 6.99-15.793 15.793-15.793 8.803 0 15.794 6.99 15.794 15.793 0 80.261 63.69 145.635 142.01 145.635s142.011-65.374 142.011-145.635c0-8.803 6.99-15.793 15.794-15.793s15.793 6.99 15.793 15.793c0 95.019-73.789 172.82-165.96 177.093z"></path></svg><span>大约 35 分钟</span><meta property="timeRequired" content="PT35M"></span><span class="words-info" aria-label="字数" localizeddate="2021年3月14日" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon word-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="word icon"><path d="M518.217 432.64V73.143A73.143 73.143 0 01603.43 1.097a512 512 0 01419.474 419.474 73.143 73.143 0 01-72.046 85.212H591.36a73.143 73.143 0 01-73.143-73.143z"></path><path d="M493.714 566.857h340.297a73.143 73.143 0 0173.143 85.577A457.143 457.143 0 11371.566 117.76a73.143 73.143 0 0185.577 73.143v339.383a36.571 36.571 0 0036.571 36.571z"></path></svg><span>约 10492 字</span><meta property="wordCount" content="10492"></span><span class="category-info" aria-label="分类" localizeddate="2021年3月14日" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon category-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="category icon"><path d="M148.41 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H148.41c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.311-40.31zM147.556 553.478H429.73c22.263 0 40.311 18.048 40.311 40.31v282.176c0 22.263-18.048 40.312-40.31 40.312H147.555c-22.263 0-40.311-18.049-40.311-40.312V593.79c0-22.263 18.048-40.311 40.31-40.311zM593.927 106.992h282.176c22.263 0 40.31 18.048 40.31 40.31V429.48c0 22.263-18.047 40.31-40.31 40.31H593.927c-22.263 0-40.311-18.047-40.311-40.31V147.302c0-22.263 18.048-40.31 40.31-40.31zM730.22 920.502H623.926c-40.925 0-74.22-33.388-74.22-74.425V623.992c0-41.038 33.387-74.424 74.425-74.424h222.085c41.038 0 74.424 33.226 74.424 74.067v114.233c0 10.244-8.304 18.548-18.547 18.548s-18.548-8.304-18.548-18.548V623.635c0-20.388-16.746-36.974-37.33-36.974H624.13c-20.585 0-37.331 16.747-37.331 37.33v222.086c0 20.585 16.654 37.331 37.126 37.331H730.22c10.243 0 18.547 8.304 18.547 18.547 0 10.244-8.304 18.547-18.547 18.547z"></path></svg><ul class="categories-wrapper"><li class="category clickable" role="navigation">环境搭建</li><meta property="articleSection" content="环境搭建"></ul></span><span aria-label="标签" localizeddate="2021年3月14日" isoriginal="true" pageview="true"><svg xmlns="http://www.w3.org/2000/svg" class="icon tag-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="tag icon"><path d="M939.902 458.563L910.17 144.567c-1.507-16.272-14.465-29.13-30.737-30.737L565.438 84.098h-.402c-3.215 0-5.726 1.005-7.634 2.913l-470.39 470.39a10.004 10.004 0 000 14.164l365.423 365.424c1.909 1.908 4.42 2.913 7.132 2.913s5.223-1.005 7.132-2.913l470.39-470.39c2.01-2.11 3.014-5.023 2.813-8.036zm-240.067-72.121c-35.458 0-64.286-28.828-64.286-64.286s28.828-64.285 64.286-64.285 64.286 28.828 64.286 64.285-28.829 64.286-64.286 64.286z"></path></svg><ul class="tags-wrapper"><li class="tag clickable" role="navigation">windows</li><li class="tag clickable" role="navigation">环境搭建</li><li class="tag clickable" role="navigation">jdk</li><li class="tag clickable" role="navigation">springcloud组件</li><li class="tag clickable" role="navigation">zipkin</li><li class="tag clickable" role="navigation">apollo</li><li class="tag clickable" role="navigation">seata</li></ul><meta property="keywords" content="windows,环境搭建,jdk,springcloud组件,zipkin,apollo,seata"></span></div><hr></div><div class="toc-place-holder"><aside id="toc"><div class="toc-header">此页内容</div><div class="toc-wrapper"><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#intro" class="router-link-active router-link-exact-active toc-link level1">博客内容介绍</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#博客内容概述" class="router-link-active router-link-exact-active toc-link level2">博客内容概述</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#博客内容大纲" class="router-link-active router-link-exact-active toc-link level2">博客内容大纲</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#简单版博客内容大纲" class="router-link-active router-link-exact-active toc-link level3">简单版博客内容大纲</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#详细版博客内容大纲" class="router-link-active router-link-exact-active toc-link level3">详细版博客内容大纲</a></li><!----><!--]--></ul><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#1." class="router-link-active router-link-exact-active toc-link level1">1.搭建基础开发环境</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-1-章节内容概述" class="router-link-active router-link-exact-active toc-link level2">1.1.章节内容概述</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-2-章节内容大纲" class="router-link-active router-link-exact-active toc-link level2">1.2.章节内容大纲</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-3-安装jdk" class="router-link-active router-link-exact-active toc-link level2">1.3.安装jdk</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-3-1-安装jdk1-5" class="router-link-active router-link-exact-active toc-link level3">1.3.1.安装jdk1.5</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-3-2-安装jdk1-6" class="router-link-active router-link-exact-active toc-link level3">1.3.2.安装jdk1.6</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-3-3-安装jdk1-7" class="router-link-active router-link-exact-active toc-link level3">1.3.3.安装jdk1.7</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_1-3-4-安装jdk1-8" class="router-link-active router-link-exact-active toc-link level3">1.3.4.安装jdk1.8</a></li><!----><!--]--></ul><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#2." class="router-link-active router-link-exact-active toc-link level1">2.搭建SpringCloud技术栈所需组件</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-1-章节内容概述" class="router-link-active router-link-exact-active toc-link level2">2.1.章节内容概述</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-2-章节内容大纲" class="router-link-active router-link-exact-active toc-link level2">2.2.章节内容大纲</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-3-搭建zipkin" class="router-link-active router-link-exact-active toc-link level2">2.3.搭建Zipkin</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-搭建apollo配置中心" class="router-link-active router-link-exact-active toc-link level2">2.4.搭建Apollo配置中心</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-1-apollo配置中心简介" class="router-link-active router-link-exact-active toc-link level3">2.4.1.Apollo配置中心简介</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-2-基于apollo内置的eureka搭建apollo配置中心" class="router-link-active router-link-exact-active toc-link level3">2.4.2.基于Apollo内置的Eureka搭建Apollo配置中心</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-2-1-单环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.2.1.单环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-2-2-多环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.2.2.多环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-2-3-开箱即用的apollo-已经修改好了需要修改的内容" class="router-link-active router-link-exact-active toc-link level4">2.4.2.3.开箱即用的Apollo(已经修改好了需要修改的内容)</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-3-基于独立部署的eureka搭建apollo配置中心" class="router-link-active router-link-exact-active toc-link level3">2.4.3.基于独立部署的Eureka搭建Apollo配置中心</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-3-1-单环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.3.1.单环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-3-2-多环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.3.2.多环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-3-3-开箱即用的apollo-已经修改好了需要修改的内容" class="router-link-active router-link-exact-active toc-link level4">2.4.3.3.开箱即用的Apollo(已经修改好了需要修改的内容)</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-4-基于zookeeper搭建apollo配置中心" class="router-link-active router-link-exact-active toc-link level3">2.4.4.基于Zookeeper搭建Apollo配置中心</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-4-1-单环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.4.1.单环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-4-2-多环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.4.2.多环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-4-3-开箱即用的apollo-已经修改好了需要修改的内容" class="router-link-active router-link-exact-active toc-link level4">2.4.4.3.开箱即用的Apollo(已经修改好了需要修改的内容)</a></li><!----><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-5-基于consul搭建apollo配置中心" class="router-link-active router-link-exact-active toc-link level3">2.4.5.基于Consul搭建Apollo配置中心</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-5-1-单环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.5.1.单环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-5-2-多环境版-包含完整编译过程" class="router-link-active router-link-exact-active toc-link level4">2.4.5.2.多环境版(包含完整编译过程)</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-4-5-3-开箱即用的apollo-已经修改好了需要修改的内容" class="router-link-active router-link-exact-active toc-link level4">2.4.5.3.开箱即用的Apollo(已经修改好了需要修改的内容)</a></li><!----><!--]--></ul><!--]--></ul><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-5-搭建seata-server" class="router-link-active router-link-exact-active toc-link level2">2.5.搭建Seata-Server</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-5-1-seata简介" class="router-link-active router-link-exact-active toc-link level3">2.5.1.Seata简介</a></li><!----><!--]--><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-5-2-基于eureka-apollo搭建seata-server" class="router-link-active router-link-exact-active toc-link level3">2.5.2.基于Eureka+Apollo搭建Seata-Server</a></li><ul class="toc-list"><!--[--><li class="toc-item"><a aria-current="page" href="/pure/blogs/environment/windows/windows-server2016/windows-server2016.html#_2-5-2-1-单节点版" class="router-link-active router-link-exact-active toc-link level4">2.5.2.1.单节点版</a></li><!----><!--]--></ul><!--]--></ul><!--]--></ul><!--]--></ul></div></aside></div><!----><div class="theme-hope-content"><div><iframe src="/banner/particles/particles.html" width="100%" height="400rm" frameborder="0" scrolling="No" leftmargin="0" topmargin="0"></iframe></div><h1 id="intro" tabindex="-1"><a class="header-anchor" href="#intro" aria-hidden="true">#</a> 博客内容介绍</h1><h2 id="博客内容概述" tabindex="-1"><a class="header-anchor" href="#博客内容概述" aria-hidden="true">#</a> 博客内容概述</h2><pre><code>本篇博客涉及主要内容有：
+ 1.搭建基础开发环境
+ 2.搭建SpringCloud技术栈所需组件
+具体每个章节中包含的内容可使通过下面博客内容大纲进行查看。
+</code></pre><h2 id="博客内容大纲" tabindex="-1"><a class="header-anchor" href="#博客内容大纲" aria-hidden="true">#</a> 博客内容大纲</h2><h3 id="简单版博客内容大纲" tabindex="-1"><a class="header-anchor" href="#简单版博客内容大纲" aria-hidden="true">#</a> <a href="/enhance/markmap/environment/windows/windows-server2016/windows-server2016-outline2.html" target="_blank">简单版博客内容大纲</a></h3><div><iframe src="/enhance/markmap/environment/windows/windows-server2016/windows-server2016-outline2.html" width="100%" height="500rem" frameborder="0" scrolling="No" leftmargin="0" topmargin="0" style="background-color:#E3EAF2;border-radius:6px;"></iframe></div><blockquote></blockquote><h3 id="详细版博客内容大纲" tabindex="-1"><a class="header-anchor" href="#详细版博客内容大纲" aria-hidden="true">#</a> <a href="/enhance/markmap/environment/windows/windows-server2016/windows-server2016-outline5.html" target="_blank">详细版博客内容大纲</a></h3><div><iframe src="/enhance/markmap/environment/windows/windows-server2016/windows-server2016-outline5.html" width="100%" height="600rem" frameborder="0" scrolling="No" leftmargin="0" topmargin="0" style="background-color:#E3EAF2;border-radius:6px;"></iframe></div><div data-v-1641239a><div class="toggle-show-all-sidebars-btn hide-in-mobile" aria-label="显示所有博客侧边栏" data-balloon-pos="left" data-v-1641239a><span class="icon iconfont icon-a-archivecatalogue-fill" data-v-1641239a></span></div></div><h1 id="1." tabindex="-1"><a class="header-anchor" href="#1." aria-hidden="true">#</a> 1.搭建基础开发环境</h1><h2 id="_1-1-章节内容概述" tabindex="-1"><a class="header-anchor" href="#_1-1-章节内容概述" aria-hidden="true">#</a> 1.1.章节内容概述</h2><pre><code>本章节涉及主要内容有：
+ 1.1.章节内容概述
+ 1.2.章节内容大纲
+ 1.3.安装jdk
+具体每个小节中包含的内容可使通过下面的章节内容大纲进行查看。
+</code></pre><h2 id="_1-2-章节内容大纲" tabindex="-1"><a class="header-anchor" href="#_1-2-章节内容大纲" aria-hidden="true">#</a> <a href="/enhance/markmap/environment/windows/windows-server2016/chapter/windows-server2016-outline5-chapter1.html" target="_blank">1.2.章节内容大纲</a></h2><div><iframe src="/enhance/markmap/environment/windows/windows-server2016/chapter/windows-server2016-outline5-chapter1.html" width="100%" height="500rem" frameborder="0" scrolling="No" leftmargin="0" topmargin="0" style="background-color:#E3EAF2;border-radius:6px;"></iframe></div><h2 id="_1-3-安装jdk" tabindex="-1"><a class="header-anchor" href="#_1-3-安装jdk" aria-hidden="true">#</a> 1.3.安装jdk</h2><h3 id="_1-3-1-安装jdk1-5" tabindex="-1"><a class="header-anchor" href="#_1-3-1-安装jdk1-5" aria-hidden="true">#</a> 1.3.1.安装jdk1.5</h3><pre><code>下载jdk1.5(64位)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u software-1661635201061:b951fa2710ed220c45fe8104a47c32968160d016 \
+&quot;https://lingwh-generic.pkg.coding.net/coding-drive/software/jdk-1.5-windows-x64.zip?version=latest&quot; \
+-o jdk-1.5-windows-x64.zip
+</code></pre></div><pre><code>配置环境变量
+JAVA_HOME
+D:\Install\develop\JDK\jdk1.5
+PATH
+%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
+CLASSPATH
+.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar
+</code></pre><h3 id="_1-3-2-安装jdk1-6" tabindex="-1"><a class="header-anchor" href="#_1-3-2-安装jdk1-6" aria-hidden="true">#</a> 1.3.2.安装jdk1.6</h3><pre><code>下载jdk1.6(64位)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u software-1661635269701:dc992411c4328c8b858f80dd75e26084c1430ce3 \
+&quot;https://lingwh-generic.pkg.coding.net/coding-drive/software/jdk-1.6-windows-x64.zip?version=latest&quot; \
+-o jdk-1.6-windows-x64.zip
+</code></pre></div><pre><code>配置环境变量
+JAVA_HOME
+D:\Install\develop\JDK\jdk1.6
+PATH
+%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
+CLASSPATH
+.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar
+</code></pre><h3 id="_1-3-3-安装jdk1-7" tabindex="-1"><a class="header-anchor" href="#_1-3-3-安装jdk1-7" aria-hidden="true">#</a> 1.3.3.安装jdk1.7</h3><pre><code>下载jdk1.7(64位)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u software-1661635322447:bc66d997b7cf000b3932888504d1ac735fc4b530 \
+&quot;https://lingwh-generic.pkg.coding.net/coding-drive/software/jdk-1.7-windows-x64.zip?version=latest&quot; \
+-o jdk-1.7-windows-x64.zip
+</code></pre></div><pre><code>配置环境变量
+JAVA_HOME
+D:\Install\develop\JDK\jdk1.7
+PATH
+%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
+CLASSPATH
+.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar
+</code></pre><h3 id="_1-3-4-安装jdk1-8" tabindex="-1"><a class="header-anchor" href="#_1-3-4-安装jdk1-8" aria-hidden="true">#</a> 1.3.4.安装jdk1.8</h3><pre><code>下载jdk1.8(64位)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u software-1661635322447:bc66d997b7cf000b3932888504d1ac735fc4b530 \
+&quot;https://lingwh-generic.pkg.coding.net/coding-drive/software/jdk-1.8-windows-x64.zip?version=latest&quot; \
+-o jdk-1.8-windows-x64.zip
+</code></pre></div><pre><code>配置环境变量
+JAVA_HOME
+D:\Install\develop\JDK\jdk1.8
+PATH
+%JAVA_HOME%\bin;%JAVA_HOME%\jre\bin
+CLASSPATH
+.;%JAVA_HOME%\lib;%JAVA_HOME%\lib\tools.jar
+</code></pre><h1 id="2." tabindex="-1"><a class="header-anchor" href="#2." aria-hidden="true">#</a> 2.搭建SpringCloud技术栈所需组件</h1><h2 id="_2-1-章节内容概述" tabindex="-1"><a class="header-anchor" href="#_2-1-章节内容概述" aria-hidden="true">#</a> 2.1.章节内容概述</h2><pre><code>本章节涉及主要内容有：
+ 2.1.章节内容概述
+ 2.2.章节内容大纲
+ 2.3.搭建Zipkin
+ 2.4.搭建Apollo配置中心
+ 2.5.搭建Seata-Server
+具体每个小节中包含的内容可使通过下面的章节内容大纲进行查看。
+</code></pre><h2 id="_2-2-章节内容大纲" tabindex="-1"><a class="header-anchor" href="#_2-2-章节内容大纲" aria-hidden="true">#</a> <a href="/enhance/markmap/environment/windows/windows-server2016/chapter/windows-server2016-outline5-chapter2.html" target="_blank">2.2.章节内容大纲</a></h2><div><iframe src="/enhance/markmap/environment/windows/windows-server2016/chapter/windows-server2016-outline5-chapter2.html" width="100%" height="500rem" frameborder="0" scrolling="No" leftmargin="0" topmargin="0" style="background-color:#E3EAF2;border-radius:6px;"></iframe></div><h2 id="_2-3-搭建zipkin" tabindex="-1"><a class="header-anchor" href="#_2-3-搭建zipkin" aria-hidden="true">#</a> 2.3.搭建Zipkin</h2><pre><code>安装jdk
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-1.搭建基础开发环境.html#_1-3-安装jdk" target="href">安装jdk</a></p><pre><code>创建存放安装包的目录-&gt;进入该目录-&gt;下载zipkin-&gt;重命名-&gt;赋予运行权限
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mkdir -p /opt/software/springcloud/zipkin &amp;&amp;
+cd /opt/software/springcloud/zipkin &amp;&amp;
+curl -fL -u springcloud-1661567629477:e7770fbb167089a0ca2df33f8c03fa548c83b4c1 \
+&quot;https://lingwh-generic.pkg.coding.net/coding-drive/springcloud/zipkin-server-2.23.9-exec.jar?version=latest&quot; \
+-o zipkin-server-2.23.9-exec.jar &amp;&amp;
+mv zipkin-server-2.23.9-exec.jar zipkin.jar &amp;&amp;
+chmod +x zipkin.jar
+</code></pre></div><pre><code>如有需要在防火墙开放端口
+
+启动zipkin
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>java -jar zipkin.jar
+</code></pre></div><h2 id="_2-4-搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-4-搭建apollo配置中心" aria-hidden="true">#</a> 2.4.搭建Apollo配置中心</h2><h3 id="_2-4-1-apollo配置中心简介" tabindex="-1"><a class="header-anchor" href="#_2-4-1-apollo配置中心简介" aria-hidden="true">#</a> 2.4.1.Apollo配置中心简介</h3><pre><code>Apollo(阿波罗)是一款可靠的分布式配置管理中心，诞生于携程框架研发部，能够集中化管理应用不同环境、不同集群的配置，配置修改后能够实时推送到应用端，并且具备规范的权限、流程治理等特性，适用于微服务配置管理场景。
+</code></pre><p><a href="https://www.apolloconfig.com" target="_blank">官方网址</a></p><div class="language-text ext-text"><pre class="language-text"><code>https://www.apolloconfig.com
+</code></pre></div><p><a href="https://github.com/apolloconfig" target="_blank">官方网址(GITHUB)</a></p><div class="language-text ext-text"><pre class="language-text"><code>https://github.com/apolloconfig
+</code></pre></div><h3 id="_2-4-2-基于apollo内置的eureka搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-4-2-基于apollo内置的eureka搭建apollo配置中心" aria-hidden="true">#</a> 2.4.2.基于Apollo内置的Eureka搭建Apollo配置中心</h3><h4 id="_2-4-2-1-单环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-单环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.2.1.单环境版(包含完整编译过程)</h4><h5 id="_2-4-2-1-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.2.1.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-2-1-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-2-准备数据库环境" aria-hidden="true">#</a> 2.4.2.1.2.准备数据库环境</h5><pre><code>在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-2-1-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.2.1.3.使用flyway脚本自动创建数据库环境</h5><pre><code>a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1/scripts/flyway/flyway-portaldb.properties中数据库连接信息为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库连接信息为192.168.0.2相关配置
+c.在apollo2.0.1文件夹下执行如下两个命令；目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><h5 id="_2-4-2-1-4-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-4-获取jar包" aria-hidden="true">#</a> 2.4.2.1.4.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名一下)
+apollo2.0.1-built-in-eureka/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar -&gt; apollo-adminservice-2.0.1.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar	-&gt; apollo-configservice-2.0.1.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+</code></pre><h5 id="_2-4-2-1-5-创建启动文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-5-创建启动文件夹" aria-hidden="true">#</a> 2.4.2.1.5.创建启动文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_built_in_eureka_dev的文件夹(版本号以实际为准)
+b.把三个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是apollo-configservice.log、apollo-adminservice.log、apollo-portal.log(注意:不用创建这三个文件,程序运行会自动创建这三个文件)
+</code></pre><h5 id="_2-4-2-1-6-编写一次启动三个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-6-编写一次启动三个jar的bat脚本" aria-hidden="true">#</a> 2.4.2.1.6.编写一次启动三个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>set url=&quot;192.168.0.2:3306&quot;
+set username=&quot;root&quot;
+set password=&quot;123456&quot;
+
+set dev_meta=&quot;http://localhost:8080/&quot;
+set portal_port=&quot;8070&quot;
+
+start &quot;configService&quot; java -Dapollo_profile=github  -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-configservice.log -jar .\apollo-configservice-2.0.1.jar
+
+start &quot;adminService&quot; java -Dapollo_profile=github   -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-adminservice.log -jar .\apollo-adminservice-2.0.1.jar
+
+start &quot;portal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%dev_meta% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-2-1-7-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-7-测试apollo" aria-hidden="true">#</a> 2.4.2.1.7.测试Apollo</h5><pre><code>Eureka注册中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:7001/
+</code></pre></div><pre><code>看到如下界面代表apollo的adminservice服务和configservice服务启动成功
+</code></pre><img src="/pure/assets/apollo-eureka7001.aa1ec0d0.png" width="100%"><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-2-1-8-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-2-1-8-添加系统参数" aria-hidden="true">#</a> 2.4.2.1.8.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><h4 id="_2-4-2-2-多环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-多环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.2.2.多环境版(包含完整编译过程)</h4><h5 id="_2-4-2-2-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.2.2.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-2-2-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-2-准备数据库环境" aria-hidden="true">#</a> 2.4.2.2.2.准备数据库环境</h5><pre><code>注意:dev和pro环境的configService、adminService用到的数据库需要分别部署,dev和pro环境的protal可以连接到同一套数据库
+
+在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><pre><code>在192.168.0.3上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-2-2-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.2.2.3.使用flyway脚本自动创建数据库环境</h5><pre><code>192.168.0.2
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1/scripts/flyway/flyway-portaldb.properties中数据库连接信息为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库连接信息为192.168.0.2相关配置
+c.在apollo2.0.1件夹下执行如下两个命令；目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><pre><code>d.更新数据库数据(使用Apollo内置的Eureka一般不用执行这个操作,默认就是8080Eureka服务器)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:8080/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>192.168.0.3
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties中数据库连接信息为192.168.0.3相关配置
+b.在apollo2.0.1文件夹下执行如下命令
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><pre><code>c.更新数据库数据
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:8081/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><h5 id="_2-4-2-2-4-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-4-获取jar包" aria-hidden="true">#</a> 2.4.2.2.4.获取jar包</h5><pre><code>执行apollo2.0.1-built-in-eureka/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar-&gt;复制一份分别命名为
+  apollo-adminservice-2.0.1-dev.jar
+  apollo-adminservice-2.0.1-pro.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar-&gt;-&gt;复制一份分别命名为
+  apollo-configservice-2.0.1-dev.jar
+  apollo-configservice-2.0.1-pro.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+注意:操作完成后共得到5个jar
+</code></pre><h5 id="_2-4-2-2-5-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-5-创建运行文件夹" aria-hidden="true">#</a> 2.4.2.2.5.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_eureka_built_in_pro的文件夹(版本号以实际为准)
+b.把五个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是
+apollo-configservice-dev.log、apollo-configservice-pro.log、
+apollo-adminservice-dev.log、apollo-adminservice-pro.log、
+apollo-portal.log
+</code></pre><h5 id="_2-4-2-2-6-编写一次启动五个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-6-编写一次启动五个jar的bat脚本" aria-hidden="true">#</a> 2.4.2.2.6.编写一次启动五个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>rem dev环境数据库连接信息
+set url_dev=&quot;192.168.0.2:3306&quot;
+set username_dev=&quot;root&quot;
+set password_dev=&quot;123456&quot;
+rem dev环境meta地址
+set meta_dev=&quot;http://localhost:8080/&quot;
+
+rem pro环境数据库连接信息
+set url_pro=&quot;192.168.0.3:3306&quot;
+set username_pro=&quot;root&quot;
+set password_pro=&quot;123456&quot;
+rem pro环境adminService访问端口
+set adminService_port_pro=&quot;8091&quot;
+rem pro环境configService访问端口
+set configService_port_pro=&quot;8081&quot;
+rem pro环境meta地址
+set meta_pro=&quot;http://localhost:8081/&quot;
+
+rem portal端口
+set portal_port=&quot;8070&quot;
+
+rem 启动dev环境configService
+start &quot;configService-dev&quot; java -Dapollo_profile=github -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-configservice-dev.log -jar .\apollo-configservice-2.0.1-dev.jar
+rem 启动dev环境adminService
+start &quot;adminService-dev&quot; java -Dapollo_profile=github  -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-adminservice-dev.log -jar .\apollo-adminservice-2.0.1-dev.jar
+rem 启动pro环境configService
+start &quot;configService-pro&quot; java -Dapollo_profile=github -DServer.port=%configService_port_pro% -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-configservice-pro.log -jar .\apollo-configservice-2.0.1-pro.jar
+rem 启动pro环境adminService
+start &quot;adminService-pro&quot; java -Dapollo_profile=github  -DServer.port=%adminService_port_pro%  -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-adminservice-pro.log -jar .\apollo-adminservice-2.0.1-pro.jar
+rem 启动portal
+start &quot;ApolloPortal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%meta_dev% -Dpro_meta=%meta_pro% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-2-2-7-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-7-测试apollo" aria-hidden="true">#</a> 2.4.2.2.7.测试Apollo</h5><pre><code>Eureka注册中心1
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Eureka注册中心2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8081/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-2-2-8-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-8-添加系统参数" aria-hidden="true">#</a> 2.4.2.2.8.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><pre><code>创建多环境
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>apollo.portal.envs
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>value:  dev,pro
+</code></pre></div><h5 id="_2-4-2-2-9-注意事项" tabindex="-1"><a class="header-anchor" href="#_2-4-2-2-9-注意事项" aria-hidden="true">#</a> 2.4.2.2.9.注意事项</h5><pre><code>a.dev环境和pro环境需要不同的数据库地址,
+即需要两套Mysql环境,第一套中有apolloconfigdb、apolloportaldb两个库,第二套 环境中只有apolloconfigdb这个库
+b.启动dev环境和pro环境时,不要再运行参数中覆盖eureka的service-url,要修改数据库中的数据,因为这个配置是从数据库中获取的,当数据库中没有这个参数时,使用启动时参数修改才有效
+192.168.0.2(使用Apollo内置的Eureka一般不用执行这个操作,默认就是8080Eureka服务器)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:8080/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>192.168.0.3
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:8081/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>c.如果启动后多环境现实不正常,直接重启下Portal,再刷新页面即可
+</code></pre><h4 id="_2-4-2-3-开箱即用的apollo-已经修改好了需要修改的内容" tabindex="-1"><a class="header-anchor" href="#_2-4-2-3-开箱即用的apollo-已经修改好了需要修改的内容" aria-hidden="true">#</a> 2.4.2.3.开箱即用的Apollo(已经修改好了需要修改的内容)</h4><h5 id="_2-4-2-3-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-2-3-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.2.3.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1-built-in-eureka.git
+</code></pre></div><h5 id="_2-4-2-3-2-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-2-3-2-获取jar包" aria-hidden="true">#</a> 2.4.2.3.2.获取jar包</h5><pre><code>a.执行apollo2.0.1-built-in-eureka/scripts/build.bat
+b.在下面三个位置找到编译好的jar包
+apollo2.0.1-built-in-eureka/apollo-adminservice/target
+apollo2.0.1-built-in-eureka/apollo-configservice/target
+apollo2.0.1-built-in-eureka/apollo-portal/target
+</code></pre><h5 id="_2-4-2-3-3-如何修改使用到的参数" tabindex="-1"><a class="header-anchor" href="#_2-4-2-3-3-如何修改使用到的参数" aria-hidden="true">#</a> 2.4.2.3.3.如何修改使用到的参数</h5><pre><code>在启动脚本中对使用到的参数进行设置,如-Dserver.port=8888
+</code></pre><h3 id="_2-4-3-基于独立部署的eureka搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-4-3-基于独立部署的eureka搭建apollo配置中心" aria-hidden="true">#</a> 2.4.3.基于独立部署的Eureka搭建Apollo配置中心</h3><h4 id="_2-4-3-1-单环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-单环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.3.1.单环境版(包含完整编译过程)</h4><h5 id="_2-4-3-1-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.3.1.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-3-1-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-2-准备数据库环境" aria-hidden="true">#</a> 2.4.3.1.2.准备数据库环境</h5><pre><code>在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-3-1-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.3.1.3.使用flyway脚本自动创建数据库环境</h5><pre><code>a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1/scripts/flyway/flyway-portaldb.properties中数据库连接信息为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库连接信息为192.168.0.2相关配置
+c.在apollo2.0.1文件夹下执行如下两个命令；目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><pre><code>d.数据库创建好之后在ApolloConfigDB库中执行:将Apollo自带的Eureka的地址换成外部Eureka的地址
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:7001/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><h5 id="_2-4-3-1-4-改造apollo-configservice" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-4-改造apollo-configservice" aria-hidden="true">#</a> 2.4.3.1.4.改造apollo-configservice</h5><pre><code>a.修改apollo2.0.1/apollo-configservice/src/main/resources/application.yml
+添加下面配置,控制程序 关闭使用@EnableEurekaServer注解,开启使用@EnableEurekaClient注解
+apollo:
+eureka:
+  server:
+  enabled: false
+  client:
+  enable: true
+b.创建启动EurekaClient的配置类
+路径
+apollo2.0.1/apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServerEurekaClientConfigure.java
+代码
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>@Configuration
+@EnableEurekaClient
+@ConditionalOnProperty(name = &quot;apollo.eureka.client.enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = true)
+public class ConfigServerEurekaClientConfigure {
+}
+</code></pre></div><pre><code>c.给pom中添加eureka-client相关依赖,注意版本设置为和微服务应用使用的Eureka一致的版本
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+	&lt;version&gt;2.2.1.RELEASE&lt;/version&gt;
+	&lt;exclusions&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-core&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey.contribs&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-apache-client4&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+	&lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre></div><h5 id="_2-4-3-1-5-改造apollo-adminservice" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-5-改造apollo-adminservice" aria-hidden="true">#</a> 2.4.3.1.5.改造apollo-adminservice</h5><pre><code>a.修改apollo2.0.1/apollo-configservice/src/main/resources/application.yml
+添加下面配置,控制程序 关闭使用@EnableEurekaServer注解,开启使用@EnableEurekaClient注解
+apollo:
+eureka:
+  server:
+  enabled: false
+  client:
+  enable: true
+b.创建启动EurekaClient的配置类
+路径
+apollo2.0.1/apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/ConfigServerEurekaClientConfigure.java
+代码
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>@Configuration
+@EnableEurekaClient
+@ConditionalOnProperty(name = &quot;apollo.eureka.client.enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = true)
+public class ConfigServerEurekaClientConfigure {
+}
+</code></pre></div><pre><code>c.给pom中添加eureka-client相关依赖,注意版本设置为和外部使用的Eureka一致的版本
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+	&lt;version&gt;2.2.1.RELEASE&lt;/version&gt;
+	&lt;exclusions&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-core&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey.contribs&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-apache-client4&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+	&lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre></div><h5 id="_2-4-3-1-6-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-6-获取jar包" aria-hidden="true">#</a> 2.4.3.1.6.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar -&gt; apollo-adminservice-2.0.1.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar -&gt; apollo-configservice-2.0.1.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+</code></pre><h5 id="_2-4-3-1-7-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-7-创建运行文件夹" aria-hidden="true">#</a> 2.4.3.1.7.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_eureka_dev的文件夹(版本号以实际为准)
+b.把三个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是apollo-configservice.log、apollo-adminservice.log、apollo-portal.log(注意:不用创建这三个文件,程序运行会自动创建这三个文件)
+</code></pre><h5 id="_2-4-3-1-8-编写一次启动三个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-8-编写一次启动三个jar的bat脚本" aria-hidden="true">#</a> 2.4.3.1.8.编写一次启动三个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>set url=&quot;192.168.0.2:3306&quot;
+set username=&quot;root&quot;
+set password=&quot;123456&quot;
+set defaultZone=&quot;http://localhost:7001/eureka/&quot;
+
+start &quot;configService&quot; java -Dapollo_profile=github -Deureka.client.serviceUrl.defaultZone=%defaultZone%  -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-configservice.log -jar .\apollo-configservice-2.0.1.jar
+start &quot;adminService&quot; java -Dapollo_profile=github -Deureka.client.serviceUrl.defaultZone=%defaultZone%   -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-adminservice.log -jar .\apollo-adminservice-2.0.1.jar
+start &quot;ApolloPortal&quot; java -Dapollo_profile=github,auth -Ddev_meta=http://localhost:8080/ -Dserver.port=8070 -Dspring.datasource.url=jdbc:mysql://%url%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-3-1-9-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-9-测试apollo" aria-hidden="true">#</a> 2.4.3.1.9.测试Apollo</h5><pre><code>访问地址
+Eureka注册中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-3-1-10-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-3-1-10-添加系统参数" aria-hidden="true">#</a> 2.4.3.1.10.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><h4 id="_2-4-3-2-多环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-多环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.3.2.多环境版(包含完整编译过程)</h4><h5 id="_2-4-3-2-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.3.2.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-3-2-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-2-准备数据库环境" aria-hidden="true">#</a> 2.4.3.2.2.准备数据库环境</h5><pre><code>注意:dev和pro环境的configService、adminService用到的数据库需要分别部署,dev和pro环境的protal可以连接到同一套数据库
+
+在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><pre><code>在192.168.0.3上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-3-2-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.3.2.3.使用flyway脚本自动创建数据库环境</h5><pre><code>192.168.0.2
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1-eureka/scripts/flyway/flyway-portaldb.properties中数据库连接信息为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库联连接信息
+c.在apollo2.0.1文件夹下执行如下两个命令,目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><pre><code>d.更新数据库数据
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:7001/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>192.168.0.3
+a.修改apollo2.0.1-eureka/scripts/flyway/flyway-configdb.properties中数据库连接信息修改为192.168.0.3相关配置
+b.在apollo2.0.1-eureka文件夹下执行如下命令
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><pre><code>c.更新数据库数据
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:7002/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><h5 id="_2-4-3-2-4-改造apollo-configservice" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-4-改造apollo-configservice" aria-hidden="true">#</a> 2.4.3.2.4.改造apollo-configservice</h5><pre><code>a.修改apollo2.0.1/apollo-configservice/src/main/resources/application.yml
+添加下面配置,控制程序 关闭使用@EnableEurekaServer注解,开启使用@EnableEurekaClient注解
+apollo:
+eureka:
+  server:
+  enabled: false
+  client:
+  enable: true
+b.创建启动EurekaClient的配置类:
+路径
+apollo2.0.1/apollo-configservice/src/main/java/com/ctrip/framework/apollo/configservice/ConfigServerEurekaClientConfigure.java
+代码
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>@Configuration
+@EnableEurekaClient
+@ConditionalOnProperty(name = &quot;apollo.eureka.client.enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = true)
+public class ConfigServerEurekaClientConfigure {
+}
+</code></pre></div><pre><code>c.给pom中添加eureka-client相关依赖,注意版本设置为和外部使用的Eureka一致的版本
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+	&lt;version&gt;2.2.1.RELEASE&lt;/version&gt;
+	&lt;exclusions&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-core&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey.contribs&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-apache-client4&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+	&lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre></div><h5 id="_2-4-3-2-5-改造apollo-adminservice" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-5-改造apollo-adminservice" aria-hidden="true">#</a> 2.4.3.2.5.改造apollo-adminservice</h5><pre><code>a.修改apollo2.0.1/apollo-configservice/src/main/resources/application.yml
+添加下面配置,控制程序 关闭使用@EnableEurekaServer注解,开启使用@EnableEurekaClient注解
+apollo:
+eureka:
+  server:
+  enabled: false
+  client:
+  enable: true
+b.创建启动EurekaClient的配置类:
+路径
+apollo2.0.1/apollo-adminservice/src/main/java/com/ctrip/framework/apollo/adminservice/ConfigServerEurekaClientConfigure.java
+代码
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>@Configuration
+@EnableEurekaClient
+@ConditionalOnProperty(name = &quot;apollo.eureka.client.enabled&quot;, havingValue = &quot;true&quot;, matchIfMissing = true)
+public class ConfigServerEurekaClientConfigure {
+}
+</code></pre></div><pre><code>c.给pom中添加eureka-client相关依赖,注意版本设置为和外部使用的Eureka一致的版本
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>&lt;dependency&gt;
+	&lt;groupId&gt;org.springframework.cloud&lt;/groupId&gt;
+	&lt;artifactId&gt;spring-cloud-starter-netflix-eureka-client&lt;/artifactId&gt;
+	&lt;version&gt;2.2.1.RELEASE&lt;/version&gt;
+	&lt;exclusions&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-client&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-core&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+		&lt;exclusion&gt;
+			&lt;groupId&gt;com.sun.jersey.contribs&lt;/groupId&gt;
+			&lt;artifactId&gt;jersey-apache-client4&lt;/artifactId&gt;
+		&lt;/exclusion&gt;
+	&lt;/exclusions&gt;
+&lt;/dependency&gt;
+</code></pre></div><h5 id="_2-4-3-2-6-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-6-获取jar包" aria-hidden="true">#</a> 2.4.3.2.6.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar-&gt;复制一份分别命名为
+  apollo-adminservice-2.0.1-dev.jar
+  apollo-adminservice-2.0.1-pro.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar-&gt;-&gt;复制一份分别命名为
+  apollo-configservice-2.0.1-dev.jar
+  apollo-configservice-2.0.1-pro.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+注意:操作完成后共得到5个jar
+</code></pre><h5 id="_2-4-3-2-7-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-7-创建运行文件夹" aria-hidden="true">#</a> 2.4.3.2.7.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_eureka_pro的文件夹(版本号以实际为准)
+b.把五个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是
+apollo-configservice-dev.log、apollo-configservice-pro.log、
+apollo-adminservice-dev.log、apollo-adminservice-pro.log、
+apollo-portal.log
+</code></pre><h5 id="_2-4-3-2-8-编写一次启动五个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-8-编写一次启动五个jar的bat脚本" aria-hidden="true">#</a> 2.4.3.2.8.编写一次启动五个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>rem dev环境数据库连接信息
+set url_dev=&quot;192.168.0.2:3306&quot;
+set username_dev=&quot;root&quot;
+set password_dev=&quot;123456&quot;
+rem dev环境meta地址
+set meta_dev=&quot;http://localhost:8080/&quot;
+
+rem pro环境数据库连接信息
+set url_pro=&quot;192.168.0.3:3306&quot;
+set username_pro=&quot;root&quot;
+set password_pro=&quot;123456&quot;
+rem pro环境adminService访问端口
+set adminService_port_pro=&quot;8091&quot;
+rem pro环境configService访问端口
+set configService_port_pro=&quot;8081&quot;
+rem pro环境meta地址
+set meta_pro=&quot;http://localhost:8081/&quot;
+
+rem portal端口
+set portal_port=&quot;8070&quot;
+
+rem 启动dev环境configService
+start &quot;configService-dev&quot; java -Dapollo_profile=github -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-configservice-dev.log -jar .\apollo-configservice-2.0.1-dev.jar
+rem 启动dev环境adminService
+start &quot;adminService-dev&quot; java -Dapollo_profile=github  -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-adminservice-dev.log -jar .\apollo-adminservice-2.0.1-dev.jar
+rem 启动pro环境configService
+start &quot;configService-pro&quot; java -Dapollo_profile=github -DServer.port=%configService_port_pro% -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-configservice-pro.log -jar .\apollo-configservice-2.0.1-pro.jar
+rem 启动pro环境adminService
+start &quot;adminService-pro&quot; java -Dapollo_profile=github  -DServer.port=%adminService_port_pro%  -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-adminservice-pro.log -jar .\apollo-adminservice-2.0.1-pro.jar
+rem 启动portal
+start &quot;ApolloPortal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%meta_dev% -Dpro_meta=%meta_pro% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-3-2-9-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-9-测试apollo" aria-hidden="true">#</a> 2.4.3.2.9.测试Apollo</h5><pre><code>Eureka注册中心1
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:7001/
+</code></pre></div><pre><code>Eureka注册中心2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:7002/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-3-2-10-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-10-添加系统参数" aria-hidden="true">#</a> 2.4.3.2.10.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><pre><code>创建多环境
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>apollo.portal.envs
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>value:  dev,pro
+</code></pre></div><h5 id="_2-4-3-2-11-特別注意事项" tabindex="-1"><a class="header-anchor" href="#_2-4-3-2-11-特別注意事项" aria-hidden="true">#</a> 2.4.3.2.11.特別注意事项</h5><pre><code>a.dev环境和pro环境需要不同的数据库地址即需要两套Mysql环境,第一套中有apolloconfigdb、apolloportaldb两个库,第二套环境中只有apolloconfigdb这个库
+b.dev环境和pro环境需要不同的Eureka地址,即需要两套Eureka环境
+c.启动dev环境和pro环境时,不要在jvm运行参数中覆盖eureka的service-url,要修改数据库中的数据,因为这个配置是从数据库中获取的
+192.168.0.2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:7001/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>192.168.0.3
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>UPDATE ApolloConfigDB.ServerConfig SET `Value` = &quot;http://localhost:7002/eureka/&quot; WHERE `key` = &quot;eureka.service.url&quot;;
+</code></pre></div><pre><code>当数据库中没有这个参数时,使用启动时参数修改才有效
+d.如果启动后多环境现实不正常,直接重启下Portal,再刷新页面即可
+</code></pre><h4 id="_2-4-3-3-开箱即用的apollo-已经修改好了需要修改的内容" tabindex="-1"><a class="header-anchor" href="#_2-4-3-3-开箱即用的apollo-已经修改好了需要修改的内容" aria-hidden="true">#</a> 2.4.3.3.开箱即用的Apollo(已经修改好了需要修改的内容)</h4><h5 id="_2-4-3-3-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-3-3-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.3.3.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1-eureka.git
+</code></pre></div><h5 id="_2-4-3-3-2-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-3-3-2-获取jar包" aria-hidden="true">#</a> 2.4.3.3.2.获取jar包</h5><pre><code>a.执行apollo2.0.1-eureka/scripts/build.bat
+b.在下面三个位置找到编译好的jar包
+apollo2.0.1-eureka/apollo-adminservice/target
+apollo2.0.1-eureka/apollo-configservice/target
+apollo2.0.1-eureka/apollo-portal/target
+</code></pre><h5 id="_2-4-3-3-3-如何修改使用到的参数" tabindex="-1"><a class="header-anchor" href="#_2-4-3-3-3-如何修改使用到的参数" aria-hidden="true">#</a> 2.4.3.3.3.如何修改使用到的参数</h5><pre><code>在启动脚本中对使用到的参数进行设置,如-Dserver.port=8888
+</code></pre><h3 id="_2-4-4-基于zookeeper搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-4-4-基于zookeeper搭建apollo配置中心" aria-hidden="true">#</a> 2.4.4.基于Zookeeper搭建Apollo配置中心</h3><h4 id="_2-4-4-1-单环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-单环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.4.1.单环境版(包含完整编译过程)</h4><h5 id="_2-4-4-1-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.4.1.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-4-1-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-2-准备数据库环境" aria-hidden="true">#</a> 2.4.4.1.2.准备数据库环境</h5><pre><code>在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-4-1-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.4.1.3.使用flyway脚本自动创建数据库环境</h5><pre><code>a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1/scripts/flyway/flyway-portaldb.properties中的数据库连接信息为192.168.0.2相关配置
+b.在apollo2.0.1文件夹下执行如下两个命令,目的是使用flyway脚本自动创建数据库环境
+  特别注意:如果已经创建好了数据库环境这一步骤可以省略
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><h5 id="_2-4-4-1-4-修改编译命令" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-4-修改编译命令" aria-hidden="true">#</a> 2.4.4.1.4.修改编译命令</h5><pre><code>修改apollo2.0.1/scripts/build.sh/build.bat，将config-service和admin-service的maven编译命令更改为
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn clean package -Pgithub -DskipTests -pl apollo-configservice,apollo-adminservice -am -Dapollo_profile=github,zookeeper-discovery -Dspring_datasource_url=$apollo_config_db_url -Dspring_datasource_username=$apollo_config_db_username -Dspring_datasource_password=$apollo_config_db_password
+</code></pre></div><h5 id="_2-4-4-1-5-准备zookeeper环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-5-准备zookeeper环境" aria-hidden="true">#</a> 2.4.4.1.5.准备Zookeeper环境</h5><pre><code>在192.168.0.2上搭建Zookeeper环境
+</code></pre><h5 id="_2-4-4-1-6-修改配置文件" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-6-修改配置文件" aria-hidden="true">#</a> 2.4.4.1.6.修改配置文件</h5><pre><code>分别修改apollo2.0.1/apollo-configservice/src/main/config和apollo2.0.1/apollo-adminservice/src/main/config安装包中config目录下的application-github.properties，配置zookeeper连接信息
+#注意:核心是将spring.cloud.zookeeper.connect-string这个配置进来,后面的连接信息可以在外面直接覆盖
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>spring.cloud.zookeeper.connect-string=127.0.0.1:2181
+</code></pre></div><h5 id="_2-4-4-1-7-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-7-获取jar包" aria-hidden="true">#</a> 2.4.4.1.7.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar -&gt; apollo-adminservice-2.0.1.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar	-&gt; apollo-configservice-2.0.1.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+</code></pre><h5 id="_2-4-4-1-8-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-8-创建运行文件夹" aria-hidden="true">#</a> 2.4.4.1.8.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_zookeeper_dev的文件夹(版本号以实际为准)
+b.把三个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是apollo-configservice.log、apollo-adminservice.log、apollo-portal.log(注意:不用创建这三个文件,程序运行会自动创建这三个文件)
+</code></pre><h5 id="_2-4-4-1-9-编写一次启动三个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-9-编写一次启动三个jar的bat脚本" aria-hidden="true">#</a> 2.4.4.1.9.编写一次启动三个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>set url=&quot;192.168.0.2:3306&quot;
+set username=&quot;root&quot;
+set password=&quot;123456&quot;
+set dev_meta=&quot;http://localhost:8080/&quot;
+set portal_port=&quot;8070&quot;
+set zookeeper_connect-string=&quot;192.168.0.2:2181&quot;
+
+start &quot;configService&quot; java -Dapollo_profile=github  -Dspring.cloud.zookeeper.connect-string=%zookeeper_connect-string% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-configservice.log -jar .\apollo-configservice-2.0.1.jar
+start &quot;adminService&quot; java -Dapollo_profile=github   -Dspring.cloud.zookeeper.connect-string=%zookeeper_connect-string% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-adminservice.log -jar .\apollo-adminservice-2.0.1.jar
+start &quot;portal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%dev_meta% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-4-1-10-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-10-测试apollo" aria-hidden="true">#</a> 2.4.4.1.10.测试Apollo</h5><pre><code>Eureka注册中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-4-1-11-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-4-1-11-添加系统参数" aria-hidden="true">#</a> 2.4.4.1.11.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><h4 id="_2-4-4-2-多环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-多环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.4.2.多环境版(包含完整编译过程)</h4><h5 id="_2-4-4-2-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.4.2.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-4-2-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-2-准备数据库环境" aria-hidden="true">#</a> 2.4.4.2.2.准备数据库环境</h5><pre><code>注意:dev和pro环境的configService、adminService用到的数据库需要分别部署,dev和pro环境的protal可以连接到同一套数据库
+
+在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><pre><code>在192.168.0.3上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-4-2-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.4.2.3.使用flyway脚本自动创建数据库环境</h5><pre><code>192.168.0.2
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1-zookeeper/scripts/flyway/flyway-portaldb.properties中数据库连接信息修改为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库联连接信息
+c.在apollo2.0.1文件夹下执行如下两个命令；目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><pre><code>192.168.0.3
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties中数据库连接信息修改为192.168.0.3相关配置
+b.在apollo2.0.1文件夹下执行如下命令
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><h5 id="_2-4-4-2-4-准备zookeeper环境" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-4-准备zookeeper环境" aria-hidden="true">#</a> 2.4.4.2.4.准备Zookeeper环境</h5><pre><code>在192.168.0.2、192.168.0.3两台机器上分别搭建好Zookeeper环境
+</code></pre><h5 id="_2-4-4-2-5-更改编译命令" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-5-更改编译命令" aria-hidden="true">#</a> 2.4.4.2.5.更改编译命令</h5><pre><code>修改apollo2.0.1/scripts/build.sh/build.bat，将config-service和admin-service的maven编译命令更改为
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn clean package -Pgithub -DskipTests -pl apollo-configservice,apollo-adminservice -am -Dapollo_profile=github,zookeeper-discovery -Dspring_datasource_url=$apollo_config_db_url -Dspring_datasource_username=$apollo_config_db_username -Dspring_datasource_password=$apollo_config_db_password
+</code></pre></div><h5 id="_2-4-4-2-6-修改配置文件" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-6-修改配置文件" aria-hidden="true">#</a> 2.4.4.2.6.修改配置文件</h5><pre><code>分别修改apollo2.0.1/apollo-configservice/src/main/config和apollo2.0.1/apollo-adminservice/src/main/config安装包中config目录下的application-github.properties,配置zookeeper服务器地址
+#注意:核心是将spring.cloud.zookeeper.connect-string这个配置进来,后面的连接信息可以在外面直接覆盖
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>spring.cloud.zookeeper.connect-string=127.0.0.1:2181
+</code></pre></div><h5 id="_2-4-4-2-7-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-7-获取jar包" aria-hidden="true">#</a> 2.4.4.2.7.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar-&gt;复制一份分别命名为
+  apollo-adminservice-2.0.1-dev.jar
+  apollo-adminservice-2.0.1-pro.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar-&gt;-&gt;复制一份分别命名为
+  apollo-configservice-2.0.1-dev.jar
+  apollo-configservice-2.0.1-pro.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+注意:操作完成后共得到5个jar
+</code></pre><h5 id="_2-4-4-2-8-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-8-创建运行文件夹" aria-hidden="true">#</a> 2.4.4.2.8.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_zookeeper_pro的文件夹(版本号以实际为准)
+b.把五个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是
+apollo-configservice-dev.log、apollo-configservice-pro.log、
+apollo-adminservice-dev.log、apollo-adminservice-pro.log、
+apollo-portal.log
+</code></pre><h5 id="_2-4-4-2-9-编写一次启动五个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-9-编写一次启动五个jar的bat脚本" aria-hidden="true">#</a> 2.4.4.2.9.编写一次启动五个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>#dev环境数据库连接信息
+set url_dev=&quot;192.168.0.2:3306&quot;
+set username_dev=&quot;root&quot;
+set password_dev=&quot;123456&quot;
+#dev环境meta地址
+set meta_dev=&quot;http://localhost:8080/&quot;
+#dev环境zookeeper地址
+set zookeeper_dev=&quot;192.168.0.2:2181&quot;
+
+#pro环境数据库连接信息
+set url_pro=&quot;192.168.0.3:3306&quot;
+set username_pro=&quot;root&quot;
+set password_pro=&quot;123456&quot;
+#pro环境adminService访问端口
+set adminService_port_pro=&quot;8091&quot;
+#pro环境configService访问端口
+set configService_port_pro=&quot;8081&quot;
+#pro环境meta地址
+set meta_pro=&quot;http://localhost:8081/&quot;
+#pro环境zookeeper地址
+set zookeeper_pro=&quot;192.168.0.3:2181&quot;
+
+#portal端口
+set portal_port=&quot;8070&quot;
+
+#启动dev环境configService
+start &quot;configService-dev&quot; java -Dapollo_profile=github -Dspring.cloud.zookeeper.connect-string=%zookeeper_dev% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-configservice-dev.log -jar .\apollo-configservice-2.0.1-dev.jar
+#启动dev环境adminService
+start &quot;adminService-dev&quot; java -Dapollo_profile=github -Dspring.cloud.zookeeper.connect-string=%zookeeper_dev% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-adminservice-dev.log -jar .\apollo-adminservice-2.0.1-dev.jar
+#启动pro环境configService
+start &quot;configService-pro&quot; java -Dapollo_profile=github -Dspring.cloud.zookeeper.connect-string=%zookeeper_pro% -DServer.port=%configService_port_pro% -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-configservice-pro.log -jar .\apollo-configservice-2.0.1-pro.jar
+#启动pro环境adminService
+start &quot;adminService-pro&quot; java -Dapollo_profile=github  -Dspring.cloud.zookeeper.connect-string=%zookeeper_pro% -DServer.port=%adminService_port_pro%  -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-adminservice-pro.log -jar .\apollo-adminservice-2.0.1-pro.jar
+#启动portal
+start &quot;ApolloPortal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%meta_dev% -Dpro_meta=%meta_pro% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-4-2-10-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-10-测试apollo" aria-hidden="true">#</a> 2.4.4.2.10.测试Apollo</h5><pre><code>Eureka注册中心1
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Eureka注册中心2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8081/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-4-2-11-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-11-添加系统参数" aria-hidden="true">#</a> 2.4.4.2.11.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><pre><code>创建多环境
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>apollo.portal.envs
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>value:  dev,pro
+</code></pre></div><h5 id="_2-4-4-2-12-特別注意事项" tabindex="-1"><a class="header-anchor" href="#_2-4-4-2-12-特別注意事项" aria-hidden="true">#</a> 2.4.4.2.12.特別注意事项</h5><pre><code>a.dev环境和pro环境需要不同的数据库地址即需要两套Mysql环境,第一套中有apolloconfigdb、apolloportaldb两个库,第二套环境中只有apolloconfigdb这个库
+b.dev环境和pro环境需要不同的Zookeeper地址,即需要两套Zookeeper环境
+c.如果启动后多环境现实不正常,直接重启下Portal,再刷新页面即可
+</code></pre><h4 id="_2-4-4-3-开箱即用的apollo-已经修改好了需要修改的内容" tabindex="-1"><a class="header-anchor" href="#_2-4-4-3-开箱即用的apollo-已经修改好了需要修改的内容" aria-hidden="true">#</a> 2.4.4.3.开箱即用的Apollo(已经修改好了需要修改的内容)</h4><h5 id="_2-4-4-3-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-4-3-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.4.3.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1-zookeeper.git
+</code></pre></div><h5 id="_2-4-4-3-2-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-4-3-2-获取jar包" aria-hidden="true">#</a> 2.4.4.3.2.获取jar包</h5><pre><code>a.执行apollo2.0.1-zookeeper/scripts/build.bat
+b.在下面三个位置找到编译好的jar包
+apollo2.0.1-zookeeper/apollo-adminservice/target
+apollo2.0.1-zookeeper/apollo-configservice/target
+apollo2.0.1-zookeeper/apollo-portal/target
+</code></pre><h5 id="_2-4-4-3-3-如何修改使用到的参数" tabindex="-1"><a class="header-anchor" href="#_2-4-4-3-3-如何修改使用到的参数" aria-hidden="true">#</a> 2.4.4.3.3.如何修改使用到的参数</h5><pre><code>在启动脚本中对使用到的参数进行设置,如-Dserver.port=8888
+</code></pre><h3 id="_2-4-5-基于consul搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-4-5-基于consul搭建apollo配置中心" aria-hidden="true">#</a> 2.4.5.基于Consul搭建Apollo配置中心</h3><h4 id="_2-4-5-1-单环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-单环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.5.1.单环境版(包含完整编译过程)</h4><h5 id="_2-4-5-1-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.5.1.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-5-1-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-2-准备数据库环境" aria-hidden="true">#</a> 2.4.5.1.2.准备数据库环境</h5><pre><code>在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-5-1-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.5.1.3.使用flyway脚本自动创建数据库环境</h5><pre><code>a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1/scripts/flyway/flyway-portaldb.properties中的数据库连接信息为192.168.0.2相关配置
+b.在apollo2.0.1文件夹下执行如下两个命令,目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><h5 id="_2-4-5-1-4-修改编译命令" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-4-修改编译命令" aria-hidden="true">#</a> 2.4.5.1.4.修改编译命令</h5><pre><code>修改apollo2.0.1/scripts/build.sh/build.bat,将config-service和admin-service的maven编译命令更改为
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn clean package -Pgithub -DskipTests -pl apollo-configservice,apollo-adminservice -am -Dapollo_profile=github,consul-discovery -Dspring_datasource_url=$apollo_config_db_url -Dspring_datasource_username=$apollo_config_db_username -Dspring_datasource_password=$apollo_config_db_password
+</code></pre></div><h5 id="_2-4-5-1-5-准备consul环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-5-准备consul环境" aria-hidden="true">#</a> 2.4.5.1.5.准备Consul环境</h5><pre><code>在192.168.0.2上搭建Consul环境
+</code></pre><h5 id="_2-4-5-1-6-修改配置文件" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-6-修改配置文件" aria-hidden="true">#</a> 2.4.5.1.6.修改配置文件</h5><pre><code>分别修改apollo2.0.1/apollo-configservice/src/main/config和apollo2.0.1/apollo-adminservice/src/main/config安装包中config目录下的application-github.properties，配置consul连接信息
+#注意:核心是将spring.cloud.consul.host和spring.cloud.consul.port这两个配置加进来,后面的连接信息可以在外面直接覆盖
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>spring.cloud.consul.host=127.0.0.1
+spring.cloud.consul.port=8500
+</code></pre></div><h5 id="_2-4-5-1-7-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-7-获取jar包" aria-hidden="true">#</a> 2.4.5.1.7.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar -&gt; apollo-adminservice-2.0.1.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar -&gt; apollo-configservice-2.0.1.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+</code></pre><h5 id="_2-4-5-1-8-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-8-创建运行文件夹" aria-hidden="true">#</a> 2.4.5.1.8.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_consul_dev的文件夹(版本号以实际为准)
+b.把三个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是apollo-configservice.log、apollo-adminservice.log、apollo-portal.log(注意:不用创建这三个文件,程序运行会自动创建这三个文件)
+</code></pre><h5 id="_2-4-5-1-9-编写一次启动三个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-9-编写一次启动三个jar的bat脚本" aria-hidden="true">#</a> 2.4.5.1.9.编写一次启动三个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>set url=&quot;192.168.0.2:3306&quot;
+set username=&quot;root&quot;
+set password=&quot;123456&quot;
+set dev_meta=&quot;http://localhost:8080/&quot;
+set portal_port=&quot;8070&quot;
+set consul_host=&quot;192.168.0.2&quot;
+
+start &quot;configService&quot; java -Dapollo_profile=github   -Dspring.cloud.consul.host=%consul_host% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-configservice.log -jar .\apollo-configservice-2.0.1.jar
+start &quot;adminService&quot; java -Dapollo_profile=github    -Dspring.cloud.consul.host=%consul_host% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-adminservice.log -jar .\apollo-adminservice-2.0.1.jar
+start &quot;portal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%dev_meta% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username% -Dspring.datasource.password=%password% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-5-1-10-访问地址" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-10-访问地址" aria-hidden="true">#</a> 2.4.5.1.10.访问地址</h5><pre><code>Eureka注册中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-5-1-11-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-5-1-11-添加系统参数" aria-hidden="true">#</a> 2.4.5.1.11.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><h4 id="_2-4-5-2-多环境版-包含完整编译过程" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-多环境版-包含完整编译过程" aria-hidden="true">#</a> 2.4.5.2.多环境版(包含完整编译过程)</h4><h5 id="_2-4-5-2-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.5.2.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1.git
+</code></pre></div><h5 id="_2-4-5-2-2-准备数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-2-准备数据库环境" aria-hidden="true">#</a> 2.4.5.2.2.准备数据库环境</h5><pre><code>注意:dev和pro环境的configService、adminService用到的数据库需要分别部署,dev和pro环境的protal可以连接到同一套数据库
+
+在192.168.0.2上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><pre><code>在192.168.0.3上搭建Mysql数据库
+</code></pre><p>详细参考-&gt; <a href="/pure/blogs/environment/centos/centos7/shardings/centos7-chapter-3.搭建基础开发环境.html#_3-5-安装mysql" target="_blank">安装mysql(8.x版本)</a></p><h5 id="_2-4-5-2-3-使用flyway脚本自动创建数据库环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-3-使用flyway脚本自动创建数据库环境" aria-hidden="true">#</a> 2.4.5.2.3.使用flyway脚本自动创建数据库环境</h5><pre><code>192.168.0.2
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties和apollo2.0.1-zookeeper/scripts/flyway/flyway-portaldb.properties中数据库连接信息修改为192.168.0.2相关配置
+b.修改apollo2.0.1/scripts/build.bat中的数据库联连接信息
+c.在apollo2.0.1文件夹下执行如下两个命令；目的是使用flyway脚本自动创建数据库环境
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pportaldb flyway:migrate
+</code></pre></div><pre><code>192.168.0.3
+a.修改apollo2.0.1/scripts/flyway/flyway-configdb.properties中数据库连接信息修改为192.168.0.3相关配置
+b.在apollo2.0.1文件夹下执行如下命令
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn -N -Pconfigdb flyway:migrate
+</code></pre></div><h5 id="_2-4-5-2-4-准备consul环境" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-4-准备consul环境" aria-hidden="true">#</a> 2.4.5.2.4.准备Consul环境</h5><pre><code>在192.168.0.2、192.168.0.3两台机器上分别搭建好Consul环境
+</code></pre><h5 id="_2-4-5-2-5-修改编译命令" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-5-修改编译命令" aria-hidden="true">#</a> 2.4.5.2.5.修改编译命令</h5><pre><code>修改apollo2.0.1-consul/scripts/build.sh/build.bat，将config-service和admin-service的maven编译命令更改为
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>mvn clean package -Pgithub -DskipTests -pl apollo-configservice,apollo-adminservice -am -Dapollo_profile=github,consul-discovery -Dspring_datasource_url=$apollo_config_db_url -Dspring_datasource_username=$apollo_config_db_username -Dspring_datasource_password=$apollo_config_db_password
+</code></pre></div><h5 id="_2-4-5-2-6-修改配置信息" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-6-修改配置信息" aria-hidden="true">#</a> 2.4.5.2.6.修改配置信息</h5><pre><code>分别修改apollo2.0.1/apollo-configservice/src/main/config和apollo2.0.1/apollo-adminservice/src/main/config安装包中config目录下的application-github.properties，配置链接信息
+#注意:核心是将spring.cloud.consul.host和spring.cloud.consul.port这两个配置加进来,后面的连接信息可以在外面直接覆盖
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>spring.cloud.consul.host=127.0.0.1
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>spring.cloud.consul.port=8500
+</code></pre></div><h5 id="_2-4-5-2-7-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-7-获取jar包" aria-hidden="true">#</a> 2.4.5.2.7.获取jar包</h5><pre><code>执行apollo2.0.1/scripts/build.bat,执行完成后可以得到下面三个jar包(最好是重命名以下)
+apollo2.0.1/apollo-adminservice/target/apollo-adminservice-2.0.1-SNAPSHOT.jar-&gt;复制一份分别命名为
+  apollo-adminservice-2.0.1-dev.jar
+  apollo-adminservice-2.0.1-pro.jar
+apollo2.0.1/apollo-configservice/target/apollo-configservice-2.0.1-SNAPSHOT.jar-&gt;-&gt;复制一份分别命名为
+  apollo-configservice-2.0.1-dev.jar
+  apollo-configservice-2.0.1-pro.jar
+apollo2.0.1/apollo-portal/target/apollo-portal-2.0.1-SNAPSHOT.jar -&gt; apollo-portal-2.0.1.jar
+注意:操作完成后共得到5个jar
+</code></pre><h5 id="_2-4-5-2-8-创建运行文件夹" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-8-创建运行文件夹" aria-hidden="true">#</a> 2.4.5.2.8.创建运行文件夹</h5><pre><code>a.创建名称为Apollo2.0.1_consul_pro的文件夹(版本号以实际为准)
+b.把五个jar包放入文件夹中
+c.创建一个logs文件夹,里面存放日志文件,日志文件名称分别是
+  apollo-configservice-dev.log、apollo-configservice-pro.log、
+  apollo-adminservice-dev.log、apollo-adminservice-pro.log、
+  apollo-portal.log
+</code></pre><h5 id="_2-4-5-2-9-编写一次启动五个jar的bat脚本" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-9-编写一次启动五个jar的bat脚本" aria-hidden="true">#</a> 2.4.5.2.9.编写一次启动五个jar的bat脚本</h5><div class="language-text ext-text"><pre class="language-text"><code>#dev环境数据库连接信息
+set url_dev=&quot;192.168.0.2:3306&quot;
+set username_dev=&quot;root&quot;
+set password_dev=&quot;123456&quot;
+#dev环境meta地址
+set meta_dev=&quot;http://localhost:8080/&quot;
+#dev环境Consul连接地址
+set consul_host_dev=&quot;192.168.0.2&quot;
+
+#pro环境数据库连接信息
+set url_pro=&quot;192.168.0.3:3306&quot;
+set username_pro=&quot;root&quot;
+set password_pro=&quot;123456&quot;
+#pro环境adminService访问端口
+set adminService_port_pro=&quot;8091&quot;
+#pro环境configService访问端口
+set configService_port_pro=&quot;8081&quot;
+#pro环境meta地址
+set meta_pro=&quot;http://localhost:8081/&quot;
+#dev环境Consul连接地址
+set consul_host_pro=&quot;192.168.0.3&quot;
+
+#portal端口
+set portal_port=&quot;8070&quot;
+
+#启动dev环境configService
+start &quot;configService-dev&quot; java -Dapollo_profile=github -Dspring.cloud.consul.host=%consul_host_dev% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-configservice-dev.log -jar .\apollo-configservice-2.0.1-dev.jar
+#启动dev环境adminService
+start &quot;adminService-dev&quot; java -Dapollo_profile=github -Dspring.cloud.consul.host=%consul_host_dev% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-adminservice-dev.log -jar .\apollo-adminservice-2.0.1-dev.jar
+#启动pro环境configService
+start &quot;configService-pro&quot; java -Dapollo_profile=github -Dspring.cloud.consul.host=%consul_host_pro% -DServer.port=%configService_port_pro% -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-configservice-pro.log -jar .\apollo-configservice-2.0.1-pro.jar
+#启动pro环境adminService
+start &quot;adminService-pro&quot; java -Dapollo_profile=github  -Dspring.cloud.consul.host=%consul_host_pro% -DServer.port=%adminService_port_pro%  -Dspring.datasource.url=jdbc:mysql://%url_pro%/ApolloConfigDB?characterEncoding=utf8 -Dspring.datasource.username=%username_pro% -Dspring.datasource.password=%password_pro% -Dlogging.file.name=.\logs\apollo-adminservice-pro.log -jar .\apollo-adminservice-2.0.1-pro.jar
+#启动portal
+start &quot;ApolloPortal&quot; java -Dapollo_profile=github,auth -Ddev_meta=%meta_dev% -Dpro_meta=%meta_pro% -Dserver.port=%portal_port% -Dspring.datasource.url=jdbc:mysql://%url_dev%/ApolloPortalDB?characterEncoding=utf8 -Dspring.datasource.username=%username_dev% -Dspring.datasource.password=%password_dev% -Dlogging.file.name=.\logs\apollo-portal.log -jar .\apollo-portal-2.0.1.jar
+</code></pre></div><h5 id="_2-4-5-2-10-测试apollo" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-10-测试apollo" aria-hidden="true">#</a> 2.4.5.2.10.测试Apollo</h5><pre><code>Eureka注册中心1
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8080/
+</code></pre></div><pre><code>Eureka注册中心2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8081/
+</code></pre></div><pre><code>Apollo配置中心
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>http://localhost:8070/
+</code></pre></div><img src="/pure/assets/apollo8070.44bba930.png" width="100%"> 登录用户名/密码: apollo/admin <h5 id="_2-4-5-2-11-添加系统参数" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-11-添加系统参数" aria-hidden="true">#</a> 2.4.5.2.11.添加系统参数</h5><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><pre><code>添加新部门
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>organizations
+</code></pre></div><pre><code>value
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>[{&quot;orgId&quot;:&quot;TEST1&quot;,&quot;orgName&quot;:&quot;样例部门1&quot;},{&quot;orgId&quot;:&quot;TEST2&quot;,&quot;orgName&quot;:&quot;样例部门2&quot;},{&quot;orgId&quot;:&quot;micro_service&quot;,&quot;orgName&quot;:&quot;微服务部门&quot;}]
+</code></pre></div><pre><code>创建多环境
+key
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>apollo.portal.envs
+</code></pre></div><div class="language-text ext-text"><pre class="language-text"><code>value:  dev,pro
+</code></pre></div><h5 id="_2-4-5-2-12-特別注意事项" tabindex="-1"><a class="header-anchor" href="#_2-4-5-2-12-特別注意事项" aria-hidden="true">#</a> 2.4.5.2.12.特別注意事项</h5><pre><code>a.dev环境和pro环境需要不同的数据库地址即需要两套Mysql环境,第一套中有apolloconfigdb、apolloportaldb两个库,第二套环境中只有apolloconfigdb这个库
+b.dev环境和pro环境需要不同的Consul地址,即需要两套Consul环境
+c.如果启动后多环境现实不正常,直接重启下Portal,再刷新页面即可
+</code></pre><h4 id="_2-4-5-3-开箱即用的apollo-已经修改好了需要修改的内容" tabindex="-1"><a class="header-anchor" href="#_2-4-5-3-开箱即用的apollo-已经修改好了需要修改的内容" aria-hidden="true">#</a> 2.4.5.3.开箱即用的Apollo(已经修改好了需要修改的内容)</h4><h5 id="_2-4-5-3-1-下载工程-并在本地安装所有用到的依赖" tabindex="-1"><a class="header-anchor" href="#_2-4-5-3-1-下载工程-并在本地安装所有用到的依赖" aria-hidden="true">#</a> 2.4.5.3.1.下载工程,并在本地安装所有用到的依赖</h5><div class="language-text ext-text"><pre class="language-text"><code>https://gitee.com/lingwh1995/apollo2.0.1-consul.git
+</code></pre></div><h5 id="_2-4-5-3-2-获取jar包" tabindex="-1"><a class="header-anchor" href="#_2-4-5-3-2-获取jar包" aria-hidden="true">#</a> 2.4.5.3.2.获取jar包</h5><pre><code>a.执行apollo2.0.1-consul/scripts/build.bat
+b.在下面三个位置找到编译好的jar包
+apollo2.0.1-consul/apollo-adminservice/target
+apollo2.0.1-consul/apollo-configservice/target
+apollo2.0.1-consul/apollo-portal/target
+</code></pre><h5 id="_2-4-5-3-3-如何修改使用到的参数" tabindex="-1"><a class="header-anchor" href="#_2-4-5-3-3-如何修改使用到的参数" aria-hidden="true">#</a> 2.4.5.3.3.如何修改使用到的参数</h5><pre><code>在启动脚本中对使用到的参数进行设置,如-Dserver.port=8888
+</code></pre><h2 id="_2-5-搭建seata-server" tabindex="-1"><a class="header-anchor" href="#_2-5-搭建seata-server" aria-hidden="true">#</a> 2.5.搭建Seata-Server</h2><h3 id="_2-5-1-seata简介" tabindex="-1"><a class="header-anchor" href="#_2-5-1-seata简介" aria-hidden="true">#</a> 2.5.1.Seata简介</h3><pre><code>Seata是一款开源的分布式事务解决方案,致力于提供高性能和简单易用的分布式事务服务。Seata将为用户提供了 AT、TCC、SAGA 和 XA 事务模式,为用户打造一站式的分布式解决方案。本地事务和seata事务的区别:本地事务只可以在同一台机器的同一个mysql中进行操作,seata事务可以跨机器进行事务控制
+</code></pre><p><a href="https://seata.io/zh-cn/" target="_blank">官方网址</a></p><div class="language-text ext-text"><pre class="language-text"><code>https://seata.io/zh-cn/
+</code></pre></div><p><a href="https://github.com/seata/seata" target="_blank">官方网址(GITHUB)</a></p><div class="language-text ext-text"><pre class="language-text"><code>https://github.com/seata/seata
+</code></pre></div><h3 id="_2-5-2-基于eureka-apollo搭建seata-server" tabindex="-1"><a class="header-anchor" href="#_2-5-2-基于eureka-apollo搭建seata-server" aria-hidden="true">#</a> 2.5.2.基于Eureka+Apollo搭建Seata-Server</h3><h4 id="_2-5-2-1-单节点版" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-单节点版" aria-hidden="true">#</a> 2.5.2.1.单节点版</h4><h5 id="_2-5-2-1-1-单节点版说明" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-1-单节点版说明" aria-hidden="true">#</a> 2.5.2.1.1.单节点版说明</h5><pre><code>使用eureka作为注册中心+使用apollo作为配置中心,seata-server版本为1.4.2
+</code></pre><h5 id="_2-5-2-1-2-下载seata-server1-4-2" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-2-下载seata-server1-4-2" aria-hidden="true">#</a> 2.5.2.1.2.下载Seata Server1.4.2</h5><pre><code>下载Seata-Server1.4.2
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u springcloud-1661828979817:5cc2489844765586c2032bafa6645a14921e4490 &quot;https://lingwh-generic.pkg.coding.net/coding-drive/springcloud/seata-server-1.4.2.zip?version=latest&quot; -o seata-server-1.4.2.zip
+</code></pre></div><pre><code>下载Seata Server1.4.2源码
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>curl -fL -u springcloud-1661829596333:f1e93d0e10c21c3e5cfd51b22a35fa8ee3fc79b9 &quot;https://lingwh-generic.pkg.coding.net/coding-drive/springcloud/seata-source_1.4.2.zip?version=latest&quot; -o seata-source_1.4.2.zip
+</code></pre></div><h5 id="_2-5-2-1-3-修改配置" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-3-修改配置" aria-hidden="true">#</a> 2.5.2.1.3.修改配置</h5><pre><code>修改seata-server-1.4.2\conf\registry.conf
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>registry {
+	# 使用什么作为注册中心：file 、nacos 、eureka、redis、zk、consul、etcd3、sofa
+	type = &quot;eureka&quot;
+
+	eureka {
+	serviceUrl = &quot;http://localhost:7001/eureka&quot;
+	application = &quot;seata-server&quot;
+	weight = &quot;1&quot;
+	}
+}
+config {
+	# 使用什么作为配置中心：file、nacos 、apollo、zk、consul、etcd3
+	type = &quot;apollo&quot;
+
+	apollo {
+	seata = &quot;default&quot;  # 注意：1.4.2 这里要新增一个 seata 与 cluster 一样，否则会出现启动空指针
+	cluster = &quot;default&quot;
+	appId = &quot;springcloud-eureka-seata&quot;
+	## apolloConfigService will cover apolloMeta
+	apolloMeta = &quot;http://localhost:8080/&quot;
+	apolloConfigService = &quot;http://localhost:8080/&quot;
+	namespace = &quot;seata-server&quot;
+	apolloAccesskeySecret = &quot;&quot;
+	}
+}
+</code></pre></div><pre><code>修改seata-server-1.4.2\conf\file.conf
+a.修改mode为db
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>store {
+  mode = &quot;db&quot;
+}
+</code></pre></div><pre><code>b.修改数据库连接信息
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>## database store property
+db {
+## the implement of javax.sql.DataSource, such as DruidDataSource(druid)/BasicDataSource(dbcp)/HikariDataSource(hikari) etc.
+datasource = &quot;druid&quot;
+## mysql/oracle/postgresql/h2/oceanbase etc.
+dbType = &quot;mysql&quot;
+driverClassName = &quot;com.mysql.cj.jdbc.Driver&quot;
+## if using mysql to store the data, recommend add rewriteBatchedStatements=true in jdbc connection param
+url = &quot;jdbc:mysql://192.168.0.5:3306/seata?rewriteBatchedStatements=true&amp;serverTimezone=Asia/Shanghai&quot;
+user = &quot;root&quot;
+password = &quot;Mysql123456_&quot;
+minConn = 5
+maxConn = 100
+globalTable = &quot;global_table&quot;
+branchTable = &quot;branch_table&quot;
+lockTable = &quot;lock_table&quot;
+queryLimit = 100
+maxWait = 5000
+}
+</code></pre></div><h5 id="_2-5-2-1-4-搭建apollo配置中心" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-4-搭建apollo配置中心" aria-hidden="true">#</a> 2.5.2.1.4.搭建Apollo配置中心</h5><p><a href="/pure/blogs/environment/windows/windows-server2016/shardings/windows-server2016-chapter-2.搭建SpringCloud技术栈所需组件.html#_2-4-3-1-单环境版" target="_blank">基于独立部署的Eureka搭建Apollo配置中心-单环境版(Windows版)</a></p><h5 id="_2-5-2-1-5-在apollo中创建相关内容" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-5-在apollo中创建相关内容" aria-hidden="true">#</a> 2.5.2.1.5.在Apollo中创建相关内容</h5><pre><code>根据registry.conf中config{apollo}的配置,在Apollo控制台中创建如下内容
+创建项目:springcloud-eureka-seata
+创建集群:default(其实不用创建,默认的集群就是default)
+创建Namespace:seata-server
+</code></pre><h5 id="_2-5-2-1-6-上传配置到apollo" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-6-上传配置到apollo" aria-hidden="true">#</a> 2.5.2.1.6.上传配置到Apollo</h5><pre><code>在源码中找到config.txt,修改后将配置放入刚才的命名空间seata-server中,然后发布配置config.txt修改后内容如下(双横线中间的内容都是需要修改的)
+</code></pre><div class="language-text ext-text"><pre class="language-text"><code>transport.type=TCP
+transport.server=NIO
+transport.heartbeat=true
+transport.enableClientBatchSendRequest=false
+transport.threadFactory.bossThreadPrefix=NettyBoss
+transport.threadFactory.workerThreadPrefix=NettyServerNIOWorker
+transport.threadFactory.serverExecutorThreadPrefix=NettyServerBizHandler
+transport.threadFactory.shareBossWorker=false
+transport.threadFactory.clientSelectorThreadPrefix=NettyClientSelector
+transport.threadFactory.clientSelectorThreadSize=1
+transport.threadFactory.clientWorkerThreadPrefix=NettyClientWorkerThread
+transport.threadFactory.bossThreadSize=1
+transport.threadFactory.workerThreadSize=default
+#---------------------------
+transport.shutdown.wait=3
+service.vgroupMapping.my_test_tx_group=seata-server
+#----service.后面的值和上面的default保持一致
+service.seata-server.grouplist=localhost:8091
+service.enableDegrade=false
+service.disableGlobalTransaction=false
+#---------------------------
+client.rm.asyncCommitBufferLimit=10000
+client.rm.lock.retryInterval=10
+client.rm.lock.retryTimes=30
+client.rm.lock.retryPolicyBranchRollbackOnConflict=true
+client.rm.reportRetryCount=5
+client.rm.tableMetaCheckEnable=false
+client.rm.tableMetaCheckerInterval=60000
+client.rm.sqlParserType=druid
+client.rm.reportSuccessEnable=false
+client.rm.sagaBranchRegisterEnable=false
+client.tm.commitRetryCount=5
+client.tm.rollbackRetryCount=5
+client.tm.defaultGlobalTransactionTimeout=60000
+client.tm.degradeCheck=false
+client.tm.degradeCheckAllowTimes=10
+client.tm.degradeCheckPeriod=2000
+#---------------------------
+store.mode=db
+#---------------------------
+store.publicKey=
+store.file.dir=file_store/data
+store.file.maxBranchSessionSize=16384
+store.file.maxGlobalSessionSize=512
+store.file.fileWriteBufferCacheSize=16384
+store.file.flushDiskMode=async
+store.file.sessionReloadReadSize=100
+store.db.datasource=druid
+store.db.dbType=mysql
+#---------------------------
+store.db.driverClassName=com.mysql.cj.jdbc.Driver
+store.db.url=jdbc:mysql://192.168.0.5:3306/seata?useUnicode=true&amp;rewriteBatchedStatements=true&amp;serverTimezone=Asia/Shanghai
+store.db.user=root
+store.db.password=123456
+#---------------------------
+store.db.minConn=5
+store.db.maxConn=30
+store.db.globalTable=global_table
+store.db.branchTable=branch_table
+store.db.queryLimit=100
+store.db.lockTable=lock_table
+store.db.maxWait=5000
+store.redis.mode=single
+store.redis.single.host=127.0.0.1
+store.redis.single.port=6379
+store.redis.sentinel.masterName=
+store.redis.sentinel.sentinelHosts=
+store.redis.maxConn=10
+store.redis.minConn=1
+store.redis.maxTotal=100
+store.redis.database=0
+store.redis.password=
+store.redis.queryLimit=100
+server.recovery.committingRetryPeriod=1000
+server.recovery.asynCommittingRetryPeriod=1000
+server.recovery.rollbackingRetryPeriod=1000
+server.recovery.timeoutRetryPeriod=1000
+server.maxCommitRetryTimeout=-1
+server.maxRollbackRetryTimeout=-1
+server.rollbackRetryTimeoutUnlockEnable=false
+client.undo.dataValidation=true
+client.undo.logSerialization=jackson
+client.undo.onlyCareUpdateColumns=true
+server.undo.logSaveDays=7
+server.undo.logDeletePeriod=86400000
+client.undo.logTable=undo_log
+client.undo.compress.enable=true
+client.undo.compress.type=zip
+client.undo.compress.threshold=64k
+log.exceptionRate=100
+transport.serialization=seata
+transport.compressor=none
+metrics.enabled=false
+metrics.registryType=compact
+metrics.exporterList=prometheus
+metrics.exporterPrometheusPort=9898
+</code></pre></div><pre><code>上传完成后发布配置
+</code></pre><h5 id="_2-5-2-1-7-启动seata-server" tabindex="-1"><a class="header-anchor" href="#_2-5-2-1-7-启动seata-server" aria-hidden="true">#</a> 2.5.2.1.7.启动Seata-Server</h5><pre><code>进入bin目录,双击seata-server.bat启动seate
+</code></pre><div class="md-enhance-mermaid loading"><svg xmlns="http://www.w3.org/2000/svg" class="icon loading-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="loading icon"><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="0s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="0s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.333s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.333s"></animate></circle><circle cx="50" cy="50" r="0" fill="none" stroke="currentColor" strokewidth="2"><animate attributename="r" repeatcount="indefinite" dur="1s" values="0;40" keytimes="0;1" keysplines="0 0.2 0.8 1" calcmode="spline" begin="-0.667s"></animate><animate attributename="opacity" repeatcount="indefinite" dur="1s" values="1;0" keytimes="0;1" keysplines="0.2 0 0.8 1" calcmode="spline" begin="-0.667s"></animate></circle></svg></div><div data-v-1641239a><div class="toggle-show-all-sidebars-btn hide-in-mobile" aria-label="显示所有博客侧边栏" data-balloon-pos="left" data-v-1641239a><span class="icon iconfont icon-a-archivecatalogue-fill" data-v-1641239a></span></div></div></div><!----><footer class="page-meta"><!----><div class="meta-item update-time"><span class="label">上次编辑于: </span><span class="info">2022/9/9 06:18:47</span></div><div class="meta-item contributors"><span class="label">贡献者: </span><!--[--><!--[--><span class="contributor" title="email: LRwq942133">lingwh</span><!--]--><!--]--></div></footer><!----><div class="waline-wrapper" style="display:block;" darkmode="false"><div data-waline provider="Waline"><div class="wl-comment"><!--v-if--><div class="wl-panel"><div class="wl-header item3"><!--[--><div class="wl-header-item"><label for="nick">昵称</label><input id="wl-nick" class="wl-input wl-nick" name="nick" type="text" value></div><div class="wl-header-item"><label for="mail">邮箱</label><input id="wl-mail" class="wl-input wl-mail" name="mail" type="email" value></div><div class="wl-header-item"><label for="link">网址</label><input id="wl-link" class="wl-input wl-link" name="link" type="text" value></div><!--]--></div><textarea id="wl-edit" class="wl-editor" placeholder="请留言。(填写邮箱可在被回复时收到邮件提醒)"></textarea><div class="wl-preview" style="display:none;"><hr><h4>预览:</h4><!-- eslint-disable-next-line vue/no-v-html --><div class="wl-content"></div></div><div class="wl-footer"><div class="wl-actions"><a href="https://guides.github.com/features/mastering-markdown/" title="Markdown Guide" aria-label="Markdown is supported" class="wl-action" target="_blank" rel="noreferrer"><svg width="16" height="16" ariahidden="true"><path d="M14.85 3H1.15C.52 3 0 3.52 0 4.15v7.69C0 12.48.52 13 1.15 13h13.69c.64 0 1.15-.52 1.15-1.15v-7.7C16 3.52 15.48 3 14.85 3zM9 11H7V8L5.5 9.92 4 8v3H2V5h2l1.5 2L7 5h2v6zm2.99.5L9.5 8H11V5h2v3h1.5l-2.51 3.5z" fill="currentColor"></path></svg></a><button class="wl-action" title="表情" style="display:none;"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M563.2 463.3 677 540c1.7 1.2 3.7 1.8 5.8 1.8.7 0 1.4-.1 2-.2 2.7-.5 5.1-2.1 6.6-4.4l25.3-37.8c1.5-2.3 2.1-5.1 1.6-7.8s-2.1-5.1-4.4-6.6l-73.6-49.1 73.6-49.1c2.3-1.5 3.9-3.9 4.4-6.6.5-2.7 0-5.5-1.6-7.8l-25.3-37.8a10.1 10.1 0 0 0-6.6-4.4c-.7-.1-1.3-.2-2-.2-2.1 0-4.1.6-5.8 1.8l-113.8 76.6c-9.2 6.2-14.7 16.4-14.7 27.5.1 11 5.5 21.3 14.7 27.4zM387 348.8h-45.5c-5.7 0-10.4 4.7-10.4 10.4v153.3c0 5.7 4.7 10.4 10.4 10.4H387c5.7 0 10.4-4.7 10.4-10.4V359.2c0-5.7-4.7-10.4-10.4-10.4zm333.8 241.3-41-20a10.3 10.3 0 0 0-8.1-.5c-2.6.9-4.8 2.9-5.9 5.4-30.1 64.9-93.1 109.1-164.4 115.2-5.7.5-9.9 5.5-9.5 11.2l3.9 45.5c.5 5.3 5 9.5 10.3 9.5h.9c94.8-8 178.5-66.5 218.6-152.7 2.4-5 .3-11.2-4.8-13.6zm186-186.1c-11.9-42-30.5-81.4-55.2-117.1-24.1-34.9-53.5-65.6-87.5-91.2-33.9-25.6-71.5-45.5-111.6-59.2-41.2-14-84.1-21.1-127.8-21.1h-1.2c-75.4 0-148.8 21.4-212.5 61.7-63.7 40.3-114.3 97.6-146.5 165.8-32.2 68.1-44.3 143.6-35.1 218.4 9.3 74.8 39.4 145 87.3 203.3.1.2.3.3.4.5l36.2 38.4c1.1 1.2 2.5 2.1 3.9 2.6 73.3 66.7 168.2 103.5 267.5 103.5 73.3 0 145.2-20.3 207.7-58.7 37.3-22.9 70.3-51.5 98.1-85 27.1-32.7 48.7-69.5 64.2-109.1 15.5-39.7 24.4-81.3 26.6-123.8 2.4-43.6-2.5-87-14.5-129zm-60.5 181.1c-8.3 37-22.8 72-43 104-19.7 31.1-44.3 58.6-73.1 81.7-28.8 23.1-61 41-95.7 53.4-35.6 12.7-72.9 19.1-110.9 19.1-82.6 0-161.7-30.6-222.8-86.2l-34.1-35.8c-23.9-29.3-42.4-62.2-55.1-97.7-12.4-34.7-18.8-71-19.2-107.9-.4-36.9 5.4-73.3 17.1-108.2 12-35.8 30-69.2 53.4-99.1 31.7-40.4 71.1-72 117.2-94.1 44.5-21.3 94-32.6 143.4-32.6 49.3 0 97 10.8 141.8 32 34.3 16.3 65.3 38.1 92 64.8 26.1 26 47.5 56 63.6 89.2 16.2 33.2 26.6 68.5 31 105.1 4.6 37.5 2.7 75.3-5.6 112.3z" fill="currentColor"></path></svg></button><button class="wl-action" title="表情包"><svg width="24" height="24" fill="currentcolor" viewbox="0 0 24 24"><path style="transform: translateY(0.5px)" d="M18.968 10.5H15.968V11.484H17.984V12.984H15.968V15H14.468V9H18.968V10.5V10.5ZM8.984 9C9.26533 9 9.49967 9.09367 9.687 9.281C9.87433 9.46833 9.968 9.70267 9.968 9.984V10.5H6.499V13.5H8.468V12H9.968V14.016C9.968 14.2973 9.87433 14.5317 9.687 14.719C9.49967 14.9063 9.26533 15 8.984 15H5.984C5.70267 15 5.46833 14.9063 5.281 14.719C5.09367 14.5317 5 14.2973 5 14.016V9.985C5 9.70367 5.09367 9.46933 5.281 9.282C5.46833 9.09467 5.70267 9.001 5.984 9.001H8.984V9ZM11.468 9H12.968V15H11.468V9V9Z"></path><path d="M18.5 3H5.75C3.6875 3 2 4.6875 2 6.75V18C2 20.0625 3.6875 21.75 5.75 21.75H18.5C20.5625 21.75 22.25 20.0625 22.25 18V6.75C22.25 4.6875 20.5625 3 18.5 3ZM20.75 18C20.75 19.2375 19.7375 20.25 18.5 20.25H5.75C4.5125 20.25 3.5 19.2375 3.5 18V6.75C3.5 5.5125 4.5125 4.5 5.75 4.5H18.5C19.7375 4.5 20.75 5.5125 20.75 6.75V18Z"></path></svg></button><input id="wl-image-upload" class="upload" type="file" accept=".png,.jpg,.jpeg,.webp,.bmp,.gif"><label for="wl-image-upload" class="wl-action" title="上传图片"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M784 112H240c-88 0-160 72-160 160v480c0 88 72 160 160 160h544c88 0 160-72 160-160V272c0-88-72-160-160-160zm96 640c0 52.8-43.2 96-96 96H240c-52.8 0-96-43.2-96-96V272c0-52.8 43.2-96 96-96h544c52.8 0 96 43.2 96 96v480z" fill="currentColor"></path><path d="M352 480c52.8 0 96-43.2 96-96s-43.2-96-96-96-96 43.2-96 96 43.2 96 96 96zm0-128c17.6 0 32 14.4 32 32s-14.4 32-32 32-32-14.4-32-32 14.4-32 32-32zm462.4 379.2-3.2-3.2-177.6-177.6c-25.6-25.6-65.6-25.6-91.2 0l-80 80-36.8-36.8c-25.6-25.6-65.6-25.6-91.2 0L200 728c-4.8 6.4-8 14.4-8 24 0 17.6 14.4 32 32 32 9.6 0 16-3.2 22.4-9.6L380.8 640l134.4 134.4c6.4 6.4 14.4 9.6 24 9.6 17.6 0 32-14.4 32-32 0-9.6-4.8-17.6-9.6-24l-52.8-52.8 80-80L769.6 776c6.4 4.8 12.8 8 20.8 8 17.6 0 32-14.4 32-32 0-8-3.2-16-8-20.8z" fill="currentColor"></path></svg></label><button class="wl-action" title="预览"><svg viewbox="0 0 1024 1024" width="24" height="24"><path d="M710.816 654.301c70.323-96.639 61.084-230.578-23.705-314.843-46.098-46.098-107.183-71.109-172.28-71.109-65.008 0-126.092 25.444-172.28 71.109-45.227 46.098-70.756 107.183-70.756 172.106 0 64.923 25.444 126.007 71.194 172.106 46.099 46.098 107.184 71.109 172.28 71.109 51.414 0 100.648-16.212 142.824-47.404l126.53 126.006c7.058 7.06 16.297 10.979 26.406 10.979 10.105 0 19.343-3.919 26.402-10.979 14.467-14.467 14.467-38.172 0-52.723L710.816 654.301zm-315.107-23.265c-65.88-65.88-65.88-172.54 0-238.42 32.069-32.07 74.245-49.149 119.471-49.149 45.227 0 87.407 17.603 119.472 49.149 65.88 65.879 65.88 172.539 0 238.42-63.612 63.178-175.242 63.178-238.943 0zm0 0" fill="currentColor"></path><path d="M703.319 121.603H321.03c-109.8 0-199.469 89.146-199.469 199.38v382.034c0 109.796 89.236 199.38 199.469 199.38h207.397c20.653 0 37.384-16.645 37.384-37.299 0-20.649-16.731-37.296-37.384-37.296H321.03c-68.582 0-124.352-55.77-124.352-124.267V321.421c0-68.496 55.77-124.267 124.352-124.267h382.289c68.582 0 124.352 55.771 124.352 124.267V524.72c0 20.654 16.736 37.299 37.385 37.299 20.654 0 37.384-16.645 37.384-37.299V320.549c-.085-109.8-89.321-198.946-199.121-198.946zm0 0" fill="currentColor"></path></svg></button></div><div class="wl-info"><div class="wl-text-number">0 <!--v-if-->  字</div><button class="wl-btn">登录</button><button class="wl-btn primary" title="Cmd|Ctrl + Enter"><!--[-->提交<!--]--></button></div><div class="wl-gif-popup"><input type="text" placeholder="搜索表情包"><div class="wl-gallery" style="gap:6px;"><!--[--><!--]--></div><div class="wl-loading"><svg width="30" height="30" viewbox="0 0 100 100" preserveaspectratio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokewidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributename="transform" type="rotate" repeatcount="indefinite" dur="1s" values="0 50 50;360 50 50" keytimes="0;1"></animateTransform></circle></svg></div></div><div class="wl-emoji-popup"><!--[--><!--]--><!--v-if--></div></div></div><!--v-if--></div><div class="wl-count"><!--v-if--> 评论</div><div class="wl-cards"><!--[--><!--]--></div><!--[--><div class="wl-loading"><svg width="30" height="30" viewbox="0 0 100 100" preserveaspectratio="xMidYMid"><circle cx="50" cy="50" fill="none" stroke="currentColor" strokewidth="4" r="40" stroke-dasharray="85 30"><animateTransform attributename="transform" type="rotate" repeatcount="indefinite" dur="1s" values="0 50 50;360 50 50" keytimes="0;1"></animateTransform></circle></svg></div><!--]--><!-- Copyright Information --><!--v-if--></div></div><!----><!--]--></main><!--]--><footer class="footer-wrapper"><div class="footer">Copyright 2021 © lingwh 欢迎访问</div><!----></footer><!--]--></div><!--]--><!----><div id="pwa-install"><!----><div id="install-modal-wrapper" style="display:none;"><div class="background"></div><div class="install-modal"><div class="header"><button class="close-button" aria-label="关闭"><svg xmlns="http://www.w3.org/2000/svg" class="icon close-icon" viewbox="0 0 1024 1024" fill="currentColor" aria-label="close icon"><path d="M589.654 511.965 1007.212 84.22a49.777 49.777 0 0 0-.73-70.02 49.046 49.046 0 0 0-69.687.665L519.967 441.946 85.882 14.2a49.08 49.08 0 0 0-69.687.664 49.777 49.777 0 0 0 .664 70.019l433.454 427.082L16.859 939.048a49.777 49.777 0 0 0-.664 70.019 49.013 49.013 0 0 0 69.687.663l434.085-427.746 416.828 427.083A49.013 49.013 0 0 0 972.037 1024a48.416 48.416 0 0 0 34.512-14.27 49.777 49.777 0 0 0 .73-70.019z"></path></svg></button><div class="logo"><!----><div class="title"><h1></h1><p class="desc">该应用可以安装在你的 PC 或移动设备上。这将使该 Web 应用程序外观和行为与其他应用程序相同。它将在出现在应用程序列表中，并可以固定到主屏幕，开始菜单或任务栏。此 Web 应用程序还将能够与其他应用程序和你的操作系统安全地进行交互。</p></div></div></div><div class="content"><div class="highlight"><!----><!----></div><div class="description"><h3>详情</h3><p></p></div></div><div class="button-wrapper"><button class="install-button">安装<span></span></button><button class="cancel-button">取消</button></div></div></div></div><!----><!--]--></div>
+    <script type="module" src="/pure/assets/app.d4c08878.js" defer></script>
+  </body>
+</html>
